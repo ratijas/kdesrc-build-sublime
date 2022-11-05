@@ -1,0 +1,8 @@
+<snippet>
+    <content><![CDATA[
+end module-set
+
+]]></content>
+    <tabTrigger>end</tabTrigger>
+    <scope>meta.block.module-set.kdesrc-build</scope>
+</snippet>

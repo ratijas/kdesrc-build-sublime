@@ -1,0 +1,8 @@
+<snippet>
+    <content><![CDATA[
+end options
+
+]]></content>
+    <tabTrigger>end</tabTrigger>
+    <scope>meta.block.options.kdesrc-build</scope>
+</snippet>
