@@ -4,5 +4,5 @@ end global
 
 ]]></content>
     <tabTrigger>end</tabTrigger>
-    <scope>meta.block.global.kdesrc-build</scope>
+    <scope>meta.block.global.kdesrc-build - meta.expected-string.kdesrc-build - comment</scope>
 </snippet>

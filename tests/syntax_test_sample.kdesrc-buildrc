@@ -19,7 +19,7 @@ global
 #          ^^^^^^^ string.quoted.kdesrc-build
 #          ^ meta.interpolation.tilde.shell variable.language.tilde.shell
 #                ^ constant.numeric.value.kdesrc-build
-#                 ^^ - string.quoted.kdesrc-build
+#                 ^^ meta.expected-string.kdesrc-build - string.quoted.kdesrc-build
 #                   ^ comment.line.number-sign.kdesrc-build punctuation.definition.comment.kdesrc-build
 
     num-cores 4
@@ -58,6 +58,10 @@ module-set extragear-graphics
 #                                 ^^^^ string.quoted.kdesrc-build constant.language.boolean.true.kdesrc-build
 #                                                       ^^ string.quoted.kdesrc-build constant.language.boolean.true.kdesrc-build
 #                                                          ^ string.quoted.kdesrc-build punctuation.separator.continuation.kdesrc-build
+
+# <- - meta.expected-string.kdesrc-build
+
+    cmake-options \
 -DEXCLUDE_DEPRECATED_BEFORE_AND_AT=5.99.0
 # <- string.quoted.kdesrc-build storage.modifier.cmake.kdesrc-build
 # ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ string.quoted.kdesrc-build
@@ -141,3 +145,49 @@ end module
 # ^^^^^^^^ meta.block.options.kdesrc-build invalid.illegal.stray-end.kdesrc-build
 
 # <- - meta.block.options.kdesrc-build
+
+# comments in various places
+global
+    directory-structure#
+
+# <- - meta.expected-string.kdesrc-build
+    directory-structure #
+
+# <- - meta.expected-string.kdesrc-build
+    directory-structure flat# comment
+
+# <- - meta.expected-string.kdesrc-build
+    directory-structure# comment
+#                      ^^^^^^^^^^ comment.line.number-sign.kdesrc-build
+    directory-structure flat# comment
+#                       ^^^^ meta.expected-string.kdesrc-build string.quoted.kdesrc-build
+#                           ^^^^^^^^^^ comment.line.number-sign.kdesrc-build
+    stop-on-failure  # comment
+#   ^^^^^^^^^^^^^^^ support.function.kdesrc-build
+#                  ^^ meta.expected-bool.kdesrc-build
+#                    ^^^^^^^^^^ - meta.expected-bool.kdesrc-build
+#                    ^^^^^^^^^^ comment.line.number-sign.kdesrc-build
+end global
+# ^^^^^^^^ meta.block.global.kdesrc-build keyword.other.region.kdesrc-build
+
+options
+    option
+not-a-value
+# ^^^^^^^^^ meta.block.options.kdesrc-build entity.name.function.kdesrc-build
+# ^^^^^^^^^ - meta.expected-string.kdesrc-build
+end options
+
+options null options
+# ^^^^^ meta.block.options.kdesrc-build keyword.other.region.kdesrc-build
+#       ^^^^ meta.block.options.kdesrc-build entity.name.enum.kdesrc-build
+#            ^^^^^^^ meta.block.options.kdesrc-build invalid.illegal.kdesrc-build
+end options
+
+options
+    opt      #
+#   ^^^ entity.name.function.kdesrc-build
+#      ^ - meta.expected-string.kdesrc-build
+#       ^^^^^ meta.expected-string.kdesrc-build
+#            ^ - meta.expected-string.kdesrc-build
+#            ^ comment.line.number-sign.kdesrc-build punctuation.definition.comment.kdesrc-build
+end options

@@ -194,6 +194,7 @@ contexts:
       pop: 1
 
   bool-value-content:
+    - meta_include_prototype: false
     - match: (?:true|1){{identifier_break}}
       scope: constant.language.boolean.true.kdesrc-build
     - match: (?:false|0){{identifier_break}}
@@ -206,47 +207,64 @@ contexts:
       pop: 1
     - match: $\n?
       pop: 1
+    - match: \s*(?=\#)
+      comment: keep meta.expected-boolean but drop before the comment
+      pop: 1
 
   string-value:
+    - meta_include_prototype: false
     - match: ''
       set:
-        - string-value-meta
-        - string-value-content
-        - string-skip-leading-whitespace
+        - string-expected-value
+        - skip-1-space
 
-  string-value-meta:
+  skip-1-space:
+    - meta_include_prototype: false
+    - match: ' ?'
+      pop: 1
+
+  string-expected-value:
+    - meta_include_prototype: false
+    - match: ''
+      set:
+        - string-meta-expected
+        - string-value-content
+        - skip-preceeding-space
+
+  string-meta-expected:
     - meta_include_prototype: false
     - meta_scope: meta.expected-string.kdesrc-build
     - match: ''
       pop: 1
 
-  string-skip-leading-whitespace:
+  skip-preceeding-space:
+    - meta_include_prototype: false
     - match: '[ \t]*'
-      pop: 1
-    - match: ''
       pop: 1
 
   string-value-content:
+    - meta_include_prototype: false
     - match: (?=\S)
       set:
+        - meta_include_prototype: false
         - meta_content_scope: string.quoted.kdesrc-build
-        - include: string-numeric-value
-        - include: string-cmake-option
-        - include: string-link-value
         - match: (\\)$\n?
           captures:
             1: punctuation.separator.continuation.kdesrc-build
-        - include: string-end
+        - match: \n
+          pop: 1
+        - match: \s*(?=\#)
+          comment: keep meta.expected-string but discard string.quoted
+          pop: 1
+        - include: string-numeric-value
+        - include: string-cmake-option
+        - include: string-link-value
         - include: expansions-and-strings
-    - include: string-end
-
-  string-end:
-    - match: \n
-      pop: 1
-    - match: (?=\s*#)
+    - match: $\n?
       pop: 1
 
   string-numeric-value:
+    - meta_include_prototype: false
     # up to 4 parts in version numbers
     - match: \b\d+(?:(\.)\d+)?(?:(\.)\d+)?(?:(\.)\d+)?(?!{{identifier_part}})
       scope: constant.numeric.value.kdesrc-build
@@ -256,6 +274,7 @@ contexts:
         3: punctuation.separator.decimal.kdesrc-build
 
   string-cmake-option:
+    - meta_include_prototype: false
     - match: (-D)({{cmake_identifier}})(=?)
       captures:
         1: storage.modifier.cmake.kdesrc-build
@@ -264,6 +283,7 @@ contexts:
       push: string-cmake-option-value
 
   string-cmake-option-value:
+    - meta_include_prototype: false
     - match: (?:1|ON|YES|TRUE|Y){{identifier_break}}
       scope: constant.language.boolean.true.kdesrc-build
       pop: 1
@@ -289,6 +309,7 @@ contexts:
       push: autolink-inet-unquoted-content
 
   autolink-inet-unquoted-content:
+    - meta_include_prototype: false
     - meta_scope: meta.link.inet.markdown markup.underline.link.markdown-gfm
     - match: (?=(?:\)|(?:{{html_entity}})*)[?!.,:*_~]*[\s<])
       pop: 1
@@ -313,13 +334,16 @@ contexts:
 # BEGIN Regions
 
   global-region:
-    - match: global{{identifier_break}}
-      scope: keyword.other.region.kdesrc-build
-      push: global-region-body
+    - match: ^\s*(global){{identifier_break}}
+      captures:
+        1: keyword.other.region.kdesrc-build
+      push:
+        - global-region-body
+        - eol-or-error
 
   global-region-body:
     - meta_scope: meta.block.global.kdesrc-build
-    - match: end\s+global{{identifier_break}}
+    - match: ^\s*end\s+global{{identifier_break}}
       scope: keyword.other.region.kdesrc-build
       set: eol-or-error
     - include: end-unbalanced
@@ -335,15 +359,17 @@ contexts:
     - include: unknown-option
 
   module-set-region:
-    - match: (module-set)(?:[ \t]+({{identifier}}))?
+    - match: ^\s*(module-set){{identifier_break}}(?:[ \t]+({{identifier}}))?
       captures:
         1: keyword.other.region.kdesrc-build
         2: entity.name.enum.kdesrc-build
-      push: module-set-region-body
+      push:
+        - module-set-region-body
+        - eol-or-error
 
   module-set-region-body:
     - meta_scope: meta.block.module-set.kdesrc-build
-    - match: end\s+module-set{{identifier_break}}
+    - match: ^\s*end\s+module-set{{identifier_break}}
       scope: keyword.other.region.kdesrc-build
       set: eol-or-error
     - include: end-unbalanced
@@ -359,15 +385,17 @@ contexts:
     - include: unknown-option
 
   module-region:
-    - match: (module)(?:[ \t]+({{identifier}}))?
+    - match: ^\s*(module){{identifier_break}}(?:[ \t]+({{identifier}}))?
       captures:
         1: keyword.other.region.kdesrc-build
         2: entity.name.enum.kdesrc-build
-      push: module-region-body
+      push:
+        - module-region-body
+        - eol-or-error
 
   module-region-body:
     - meta_scope: meta.block.module.kdesrc-build
-    - match: end\s+module{{identifier_break}}
+    - match: ^\s*end\s+module{{identifier_break}}
       scope: keyword.other.region.kdesrc-build
       set: eol-or-error
     - include: end-unbalanced
@@ -375,15 +403,17 @@ contexts:
       push: option-or-module-statements
 
   options-region:
-    - match: (options)(?:[ \t]+({{identifier}}))?
+    - match: ^\s*(options){{identifier_break}}(?:[ \t]+({{identifier}}))?
       captures:
         1: keyword.other.region.kdesrc-build
         2: entity.name.enum.kdesrc-build
-      push: options-region-body
+      push:
+        - options-region-body
+        - eol-or-error
 
   options-region-body:
     - meta_scope: meta.block.options.kdesrc-build
-    - match: end\s+options{{identifier_break}}
+    - match: ^\s*end\s+options{{identifier_break}}
       scope: keyword.other.region.kdesrc-build
       set: eol-or-error
     - include: end-unbalanced
