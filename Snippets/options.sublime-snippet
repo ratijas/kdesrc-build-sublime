@@ -1,0 +1,9 @@
+<snippet>
+    <content><![CDATA[
+options ${1:name}
+    ${2:# module options}
+end options
+]]></content>
+    <tabTrigger>options</tabTrigger>
+    <scope>source.kdesrc-build - meta.block</scope>
+</snippet>

@@ -1,0 +1,9 @@
+<snippet>
+    <content><![CDATA[
+global
+    ${1:# global options...}
+end global
+]]></content>
+    <tabTrigger>global</tabTrigger>
+    <scope>source.kdesrc-build - meta.block</scope>
+</snippet>

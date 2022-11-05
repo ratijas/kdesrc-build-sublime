@@ -1,0 +1,412 @@
+%YAML 1.2
+---
+version: 2
+name: kdesrc-build
+scope: source.kdesrc-build
+
+file_extensions:
+  - kdesrc-buildrc
+
+# keep them in sync with settings and with upstream repo
+hidden_extensions:
+  - custom-qt5-libs-build-include
+  - custom-qt6-libs-build-include
+  - kdesrc-buildrc-kf5-sample
+  - kdesrc-buildrc-kf6-sample
+  - kf5-applications-build-include
+  - kf5-common-options-build-include
+  - kf5-extragear-build-include
+  - kf5-frameworks-build-include
+  - kf5-kdepim-build-include
+  - kf5-qt5-build-include
+  - kf5-workspace-build-include
+  - kf6-applications-build-include
+  - kf6-common-options-build-include
+  - kf6-extragear-build-include
+  - kf6-frameworks-build-include
+  - kf6-kdepim-build-include
+  - kf6-qt6-build-include
+  - kf6-workspace-build-include
+  - qt5-build-include
+  - qt6-build-include
+
+extends: Packages/ShellScript/Bash.sublime-syntax
+
+variables:
+  # based on Packages/JavaScript/JavaScript.sublime-syntax
+  identifier_part: (?:[-_\p{L}\p{Nl}\p{Mn}\p{Mc}\p{Nd}\p{Pc}])
+  identifier_break: (?!{{identifier_part}})
+  identifier: (?:{{identifier_part}}+{{identifier_break}})
+
+  cmake_identifier: (?:[a-zA-Z][a-zA-Z0-9_]*)
+
+  # Copied from Markdown.sublime-syntax
+  html_entity: '&([a-zA-Z0-9]+|#\d+|#[Xx]\h+);'
+
+  option: |-
+    (?x:
+      binpath|branch|build-dir|checkout-only|cmake-options|configure-flags
+    | custom-build-command|cxxflags|dest-dir|do-not-compile|kdedir
+    | libpath|log-dir|make-install-prefix|make-options|module-base-path
+    | cmake-generator|cmake-toolchain|ninja-options
+    | override-build-system|override-url|prefix|qtdir|repository
+    | revision|source-dir|svn-server|tag|remove-after-install
+    | qmake-options|git-user|directory-layout
+    ){{identifier_break}}
+
+  global_option: |-
+    (?x:
+      branch-group|git-desired-protocol|git-repository-base|http-proxy
+    | kde-languages|niceness|debug-level|persistent-data-file|set-env
+    | num-cores|num-cores-low-mem
+    # extra options not found in upstream vim syntax at the time of writing
+    | directory-structure
+    ){{identifier_break}}
+
+  module_set_option: (?:use-modules|ignore-modules){{identifier_break}}
+
+  bool_option: |-
+    (?x:
+      build-system-only|build-when-unchanged|ignore-kde-structure
+    | include-dependencies|install-after-build|manual-build|manual-update
+    | no-src|reconfigure|recreate-configure|refresh-build|run-tests
+    | use-clean-install|compile-commands-export|compile-commands-linking
+    ){{identifier_break}}
+
+  global_bool_option: |-
+    (?x:
+      async|colorful-output|disable-agent-check|disable-snapshots|pretend
+    | purge-old-logs|stop-on-failure|use-idle-io-priority|install-session-driver
+    | install-environment-driver
+    )
+
+contexts:
+  main:
+    - include: statements
+
+  prototype:
+    - include: comments
+
+  comments:
+    - include: line-comments
+
+  eol-or-error:
+    - match: \n|$
+      pop: 1
+    - match: \S+
+      scope: invalid.illegal.kdesrc-build
+
+  line-comments:
+    - match: \#
+      scope: punctuation.definition.comment.kdesrc-build
+      push: line-comment-body
+
+  line-comment-body:
+    - meta_include_prototype: false
+    - meta_scope: comment.line.number-sign.kdesrc-build
+    - include: line-comment-end
+
+  line-comment-end:
+    - match: (\#+)?\n
+      captures:
+        1: punctuation.definition.comment.kdesrc-build
+      pop: 1
+
+  statements:
+    - match: (?=\S)
+      push: statement
+
+  statement:
+    - include: include
+    - include: global-region
+    - include: module-set-region
+    - include: module-region
+    - include: options-region
+
+  include:
+    - match: include{{identifier_break}}
+      scope: keyword.import.kdesrc-build
+      set: path
+
+  path:
+    - match: \s*$
+      pop: 1
+
+    - match: \S[^$]*
+      scope: markup.underline.link.kdesrc-build
+      pop: 1
+
+  option:
+    - match: '{{option}}'
+      scope: support.function.kdesrc-build
+      set: string-value
+
+  global-option:
+    - match: '{{global_option}}'
+      scope: support.function.kdesrc-build
+      set: string-value
+
+  error-global-option:
+    - match: '{{global_option}}'
+      scope: invalid.illegal.global-option.kdesrc-build
+      set: string-value
+
+  module-set-option:
+    - match: '{{module_set_option}}'
+      scope: support.function.kdesrc-build
+      set: string-value
+
+  error-module-set-option:
+    - match: '{{module_set_option}}'
+      scope: invalid.illegal.module-set-option.kdesrc-build
+      set: string-value
+
+  bool-option:
+    - match: '{{bool_option}}'
+      scope: support.function.kdesrc-build
+      set: bool-value
+
+  global-bool-option:
+    - match: '{{global_bool_option}}'
+      scope: support.function.kdesrc-build
+      set: bool-value
+
+  error-bool-option:
+    - match: '{{global_bool_option}}'
+      scope: invalid.illegal.global-option.kdesrc-build
+      set: bool-value
+
+  unknown-option:
+    - match: '{{identifier}}'
+      scope: entity.name.function.kdesrc-build
+      set: string-value
+
+  bool-value:
+    - match: ''
+      set:
+        - bool-value-meta
+        - bool-value-content
+
+  bool-value-meta:
+    - meta_include_prototype: false
+    - meta_scope: meta.expected-bool.kdesrc-build
+    - match: ''
+      pop: 1
+
+  bool-value-content:
+    - match: (?:true|1){{identifier_break}}
+      scope: constant.language.boolean.true.kdesrc-build
+    - match: (?:false|0){{identifier_break}}
+      scope: constant.language.boolean.false.kdesrc-build
+    - match: (?:t(?:r(?:u)?)?|f(?:a(?:l(?:s)?)?)?){{identifier_break}}
+      # incremental typing, don't highlight as an error
+    - match: (\S+)$\n?
+      captures:
+        1: invalid.illegal.expected-boolean.kdesrc-build
+      pop: 1
+    - match: $\n?
+      pop: 1
+
+  string-value:
+    - match: ''
+      set:
+        - string-value-meta
+        - string-value-content
+        - string-skip-leading-whitespace
+
+  string-value-meta:
+    - meta_include_prototype: false
+    - meta_scope: meta.expected-string.kdesrc-build
+    - match: ''
+      pop: 1
+
+  string-skip-leading-whitespace:
+    - match: '[ \t]*'
+      pop: 1
+    - match: ''
+      pop: 1
+
+  string-value-content:
+    - match: (?=\S)
+      set:
+        - meta_content_scope: string.quoted.kdesrc-build
+        - include: string-numeric-value
+        - include: string-cmake-option
+        - include: string-link-value
+        - match: (\\)$\n?
+          captures:
+            1: punctuation.separator.continuation.kdesrc-build
+        - include: string-end
+        - include: expansions-and-strings
+    - include: string-end
+
+  string-end:
+    - match: \n
+      pop: 1
+    - match: (?=\s*#)
+      pop: 1
+
+  string-numeric-value:
+    # up to 4 parts in version numbers
+    - match: \b\d+(?:(\.)\d+)?(?:(\.)\d+)?(?:(\.)\d+)?(?!{{identifier_part}})
+      scope: constant.numeric.value.kdesrc-build
+      captures:
+        1: punctuation.separator.decimal.kdesrc-build
+        2: punctuation.separator.decimal.kdesrc-build
+        3: punctuation.separator.decimal.kdesrc-build
+
+  string-cmake-option:
+    - match: (-D)({{cmake_identifier}})(=?)
+      captures:
+        1: storage.modifier.cmake.kdesrc-build
+        2: entity.name.constant.kdesrc-build
+        3: keyword.operator.assignment.kdesrc-build
+      push: string-cmake-option-value
+
+  string-cmake-option-value:
+    - match: (?:1|ON|YES|TRUE|Y){{identifier_break}}
+      scope: constant.language.boolean.true.kdesrc-build
+      pop: 1
+    - match: (?:0|OFF|NO|FALSE|N|IGNORE|NOTFOUND){{identifier_break}}
+      scope: constant.language.boolean.false.kdesrc-build
+      pop: 1
+    - match: ''
+      pop: 1
+
+  string-link-value:
+    - include: autolink-inet
+
+# BEGIN Markdown links
+
+  # Copied from Markdown.sublime-syntax.
+
+  autolink-inet:
+    # GitHub Flavoured Markdown
+    # After a valid domain, zero or more non-space non-< characters may follow
+    - match: (?:(?:https|http|ftp|file)(://)|www\.)[\w-]+
+      captures:
+        1: punctuation.separator.path.markdown
+      push: autolink-inet-unquoted-content
+
+  autolink-inet-unquoted-content:
+    - meta_scope: meta.link.inet.markdown markup.underline.link.markdown-gfm
+    - match: (?=(?:\)|(?:{{html_entity}})*)[?!.,:*_~]*[\s<])
+      pop: 1
+    - include: autolink-inet-common
+
+  autolink-inet-common:
+    - include: link-url-path-separators
+    - include: link-url-escapes
+
+  link-url-escapes:
+    - match: (%)\h{2}
+      scope: constant.character.escape.url.markdown
+      captures:
+        1: punctuation.definition.escape.markdown
+
+  link-url-path-separators:
+    - match: '[/&?#]'
+      scope: punctuation.separator.path.markdown
+
+# END Markdown links
+
+# BEGIN Regions
+
+  global-region:
+    - match: global{{identifier_break}}
+      scope: keyword.other.region.kdesrc-build
+      push: global-region-body
+
+  global-region-body:
+    - meta_scope: meta.block.global.kdesrc-build
+    - match: end\s+global{{identifier_break}}
+      scope: keyword.other.region.kdesrc-build
+      set: eol-or-error
+    - include: end-unbalanced
+    - match: (?=\S)
+      push: global-statements
+
+  global-statements:
+    - include: option
+    - include: global-option
+    - include: global-bool-option
+    - include: bool-option
+    - include: error-module-set-option
+    - include: unknown-option
+
+  module-set-region:
+    - match: (module-set)(?:[ \t]+({{identifier}}))?
+      captures:
+        1: keyword.other.region.kdesrc-build
+        2: entity.name.enum.kdesrc-build
+      push: module-set-region-body
+
+  module-set-region-body:
+    - meta_scope: meta.block.module-set.kdesrc-build
+    - match: end\s+module-set{{identifier_break}}
+      scope: keyword.other.region.kdesrc-build
+      set: eol-or-error
+    - include: end-unbalanced
+    - match: (?=\S)
+      push: module-set-statements
+
+  module-set-statements:
+    - include: option
+    - include: module-set-option
+    - include: bool-option
+    - include: error-bool-option
+    - include: error-global-option
+    - include: unknown-option
+
+  module-region:
+    - match: (module)(?:[ \t]+({{identifier}}))?
+      captures:
+        1: keyword.other.region.kdesrc-build
+        2: entity.name.enum.kdesrc-build
+      push: module-region-body
+
+  module-region-body:
+    - meta_scope: meta.block.module.kdesrc-build
+    - match: end\s+module{{identifier_break}}
+      scope: keyword.other.region.kdesrc-build
+      set: eol-or-error
+    - include: end-unbalanced
+    - match: (?=\S)
+      push: option-or-module-statements
+
+  options-region:
+    - match: (options)(?:[ \t]+({{identifier}}))?
+      captures:
+        1: keyword.other.region.kdesrc-build
+        2: entity.name.enum.kdesrc-build
+      push: options-region-body
+
+  options-region-body:
+    - meta_scope: meta.block.options.kdesrc-build
+    - match: end\s+options{{identifier_break}}
+      scope: keyword.other.region.kdesrc-build
+      set: eol-or-error
+    - include: end-unbalanced
+    - match: (?=\S)
+      push: option-or-module-statements
+
+  option-or-module-statements:
+    - include: option
+    - include: bool-option
+    - include: error-bool-option
+    - include: error-module-set-option
+    - include: error-global-option
+    - include: unknown-option
+
+  end-unbalanced:
+    - match: end\s+(?:global|module|module-set|options){{identifier_break}}
+      scope: invalid.illegal.stray-end.kdesrc-build
+      set: eol-or-error
+    - match: end{{identifier_break}}
+      scope: keyword.other.region.kdesrc-build
+      set:
+        - meta_scope: meta.expected-region.kdesrc-build
+        - match: \n|$
+          pop: 1
+
+# END Regions

@@ -1,0 +1,32 @@
+{
+    "extensions": [
+        "kdesrc-buildrc",
+    ],
+    // keep them in sync with sublime-syntax and with upstream repo
+    "hidden_file_extensions": [
+        "custom-qt5-libs-build-include",
+        "custom-qt6-libs-build-include",
+        "kdesrc-buildrc-kf5-sample",
+        "kdesrc-buildrc-kf6-sample",
+        "kf5-applications-build-include",
+        "kf5-common-options-build-include",
+        "kf5-extragear-build-include",
+        "kf5-frameworks-build-include",
+        "kf5-kdepim-build-include",
+        "kf5-qt5-build-include",
+        "kf5-workspace-build-include",
+        "kf6-applications-build-include",
+        "kf6-common-options-build-include",
+        "kf6-extragear-build-include",
+        "kf6-frameworks-build-include",
+        "kf6-kdepim-build-include",
+        "kf6-qt6-build-include",
+        "kf6-workspace-build-include",
+        "qt5-build-include",
+        "qt6-build-include",
+    ],
+    "tab_size": 4,
+    "translate_tabs_to_spaces": true,
+    "trim_trailing_white_space_on_save": "not_on_caret",
+    "word_separators": "./\\()\"':,.;<>~!@#$%^&*|+=[]{}`~?" // default without '-'
+}

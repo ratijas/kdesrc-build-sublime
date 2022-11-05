@@ -1,0 +1,143 @@
+# SYNTAX TEST "Packages/kdesrc-build/kdesrc-build.sublime-syntax"
+
+# This is a sample kdesrc-build configuration file
+# ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ comment.line.number-sign.kdesrc-build
+
+global
+# <- meta.block.global.kdesrc-build keyword.other.region.kdesrc-build
+# ^^^^ meta.block.global.kdesrc-build keyword.other.region.kdesrc-build
+#     ^ meta.block.global.kdesrc-build - keyword.other.region.kdesrc-build
+
+    branch-group kf5-qt5
+#   ^^^^^^^^^^^^ support.function.kdesrc-build
+#                ^^^^^^^ string.quoted.kdesrc-build
+
+# <- meta.block.global.kdesrc-build
+
+    kdedir ~/kde-5  # Where to install KF5-based software
+#   ^^^^^^ support.function.kdesrc-build
+#          ^^^^^^^ string.quoted.kdesrc-build
+#          ^ meta.interpolation.tilde.shell variable.language.tilde.shell
+#                ^ constant.numeric.value.kdesrc-build
+#                 ^^ - string.quoted.kdesrc-build
+#                   ^ comment.line.number-sign.kdesrc-build punctuation.definition.comment.kdesrc-build
+
+    num-cores 4
+#   ^^^^^^^^^ support.function.kdesrc-build
+#             ^ string.quoted.kdesrc-build constant.numeric.value.kdesrc-build
+
+    cmake-options -DBUILD_TESTING=1
+#   ^^^^^^^^^^^^^ support.function.kdesrc-build
+#                 ^^^^^^^^^^^^^^^^^ string.quoted.kdesrc-build
+#                 ^^ storage.modifier.cmake.kdesrc-build
+#                   ^^^^^^^^^^^^^ entity.name.constant.kdesrc-build
+#                                ^ keyword.operator.assignment.kdesrc-build
+#                                 ^ constant.language.boolean.true.kdesrc-build
+
+    compile-commands-export false
+#   ^^^^^^^^^^^^^^^^^^^^^^^ support.function.kdesrc-build
+#                           ^^^^^ constant.language.boolean.false.kdesrc-build
+
+    include-dependencies true
+#   ^^^^^^^^^^^^^^^^^^^^ support.function.kdesrc-build
+#                        ^^^^ constant.language.boolean.true.kdesrc-build
+
+    include-dependencies tru
+#                        ^^^^ meta.expected-bool.kdesrc-build - invalid.illegal.expected-boolean.kdesrc-build
+
+end global
+# ^^^^^^^^ meta.block.global.kdesrc-build keyword.other.region.kdesrc-build
+
+module-set extragear-graphics
+# <- meta.block.module-set.kdesrc-build keyword.other.region.kdesrc-build
+# ^^^^^^^^ meta.block.module-set.kdesrc-build keyword.other.region.kdesrc-build
+#          ^^^^^^^^^^^^^^^^^^ meta.block.module-set.kdesrc-build entity.name.enum.kdesrc-build
+
+    cmake-options -DBUILD_TESTING=TRUE -DBUILD_WITH_QT6=ON \
+#   ^^^^^^^^^^^^^ support.function.kdesrc-build
+#                                 ^^^^ string.quoted.kdesrc-build constant.language.boolean.true.kdesrc-build
+#                                                       ^^ string.quoted.kdesrc-build constant.language.boolean.true.kdesrc-build
+#                                                          ^ string.quoted.kdesrc-build punctuation.separator.continuation.kdesrc-build
+-DEXCLUDE_DEPRECATED_BEFORE_AND_AT=5.99.0
+# <- string.quoted.kdesrc-build storage.modifier.cmake.kdesrc-build
+# ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ string.quoted.kdesrc-build
+#                                 ^ keyword.operator.assignment.kdesrc-build
+#                                  ^^^^^^ constant.numeric.value.kdesrc-build
+#                                   ^ punctuation.separator.decimal.kdesrc-build
+#                                      ^ punctuation.separator.decimal.kdesrc-build
+
+end module-set
+
+# <- - meta.block
+
+module gammaray
+# ^^^^ meta.block.module.kdesrc-build keyword.other.region.kdesrc-build
+#      ^^^^^^^^ meta.block.module.kdesrc-build entity.name.enum.kdesrc-build
+
+    repository https://github.com/KDAB/GammaRay
+#   ^^^^^^^^^^ support.function.kdesrc-build
+#              ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ string.quoted.kdesrc-build markup.underline.link
+    branch master
+#   ^^^^^^ support.function.kdesrc-build
+#          ^^^^^^ string.quoted.kdesrc-build
+end module
+# ^^^^^^^^ meta.block.module.kdesrc-build keyword.other.region.kdesrc-build
+
+# <- - meta.block
+
+options kcoreaddons
+# <- meta.block.options.kdesrc-build keyword.other.region.kdesrc-build
+# ^^^^^ meta.block.options.kdesrc-build keyword.other.region.kdesrc-build
+#       ^^^^^^^^^^^ meta.block.options.kdesrc-build entity.name.enum.kdesrc-build
+
+    make-options -j ${num_cores}
+#   ^^^^^^^^^^^^ support.function.kdesrc-build
+#                ^^ string.quoted.kdesrc-build
+#                   ^^^^^^^^^^^^ string.quoted.kdesrc-build meta.interpolation.parameter.shell
+#                   ^ punctuation.definition.variable.shell
+#                    ^ punctuation.section.interpolation.begin.shell
+#                     ^^^^^^^^^ variable.other.readwrite.shell
+#                              ^ punctuation.section.interpolation.end.shell
+
+end options
+# <- meta.block.options.kdesrc-build keyword.other.region.kdesrc-build
+# ^^^^^^^^^ meta.block.options.kdesrc-build keyword.other.region.kdesrc-build
+
+# <- - meta.block
+
+include /path/to/kdesrc-build/kf5-qt5-build-include
+# <- keyword.import.kdesrc-build
+# ^^^^^ keyword.import.kdesrc-build
+#       ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ markup.underline.link.kdesrc-build
+
+# And now for some illegal stuff
+
+global
+    use-modules null
+#   ^^^^^^^^^^^ invalid.illegal.module-set-option.kdesrc-build
+#               ^^^^ string.quoted.kdesrc-build
+end global
+
+module null
+    branch-group kf5-qt5
+#   ^^^^^^^^^^^^ invalid.illegal.global-option.kdesrc-build
+#                ^^^^^^^ meta.block.module.kdesrc-build string.quoted.kdesrc-build
+end module
+
+module-set null
+    stop-on-failure true
+#   ^^^^^^^^^^^^^^^ invalid.illegal.global-option.kdesrc-build
+#                   ^^^^ constant.language.boolean.true.kdesrc-build
+end module-set
+
+options null
+    stop-on-failure never!
+#   ^^^^^^^^^^^^^^^ invalid.illegal.global-option.kdesrc-build
+#                   ^^^^^^ invalid.illegal.expected-boolean.kdesrc-build
+end options
+
+options null
+end module
+# ^^^^^^^^ meta.block.options.kdesrc-build invalid.illegal.stray-end.kdesrc-build
+
+# <- - meta.block.options.kdesrc-build
