@@ -4,5 +4,5 @@ end module
 
 ]]></content>
     <tabTrigger>end</tabTrigger>
-    <scope>meta.block.module.kdesrc-build - meta.expected-string.kdesrc-build - comment</scope>
+    <scope>meta.block.module.kdesrc-build - meta.expected - comment</scope>
 </snippet>

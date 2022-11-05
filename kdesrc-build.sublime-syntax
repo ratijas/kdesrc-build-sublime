@@ -189,7 +189,7 @@ contexts:
 
   bool-value-meta:
     - meta_include_prototype: false
-    - meta_scope: meta.expected-bool.kdesrc-build
+    - meta_scope: meta.expected.bool.kdesrc-build
     - match: ''
       pop: 1
 
@@ -233,7 +233,7 @@ contexts:
 
   string-meta-expected:
     - meta_include_prototype: false
-    - meta_scope: meta.expected-string.kdesrc-build
+    - meta_scope: meta.expected.string.kdesrc-build
     - match: ''
       pop: 1
 

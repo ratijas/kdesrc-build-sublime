@@ -13,7 +13,7 @@ class CloseRegionCommand(sublime_plugin.TextCommand):
 
         for kind in ("global", "module-set", "module", "options"):
             scope = "meta.block.%s.kdesrc-build" % kind
-            if self.view.match_selector(s.end(), "%s - meta.expected-string.kdesrc-build - comment" % scope):
+            if self.view.match_selector(s.end(), "%s - meta.expected - comment" % scope):
                 replacement = "end %s\n" % kind
                 self.view.replace(edit, line_region, replacement)
                 break;

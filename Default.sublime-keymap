@@ -2,7 +2,7 @@
 	{
 		"keys": ["d"], "command": "close_region", "context":
 		[
-			{ "key": "selector", "operator": "equal", "operand": "source.kdesrc-build meta.block - meta.expected-string.kdesrc-build - comment", "match_all": true },
+			{ "key": "selector", "operator": "equal", "operand": "source.kdesrc-build meta.block - meta.expected - comment", "match_all": true },
 			{ "key": "preceding_text", "operator": "regex_match", "operand": "\\s*en", "match_all": true },
 			{ "key": "setting.auto_close_tags" }
 		]
