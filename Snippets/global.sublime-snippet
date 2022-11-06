@@ -5,5 +5,6 @@ global
 end global
 ]]></content>
     <tabTrigger>global</tabTrigger>
+    <description>config block</description>
     <scope>source.kdesrc-build - meta.block</scope>
 </snippet>

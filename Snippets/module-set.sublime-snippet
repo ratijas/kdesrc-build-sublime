@@ -5,5 +5,6 @@ module-set ${1:name}
 end module-set
 ]]></content>
     <tabTrigger>module-set</tabTrigger>
+    <description>config block</description>
     <scope>source.kdesrc-build - meta.block</scope>
 </snippet>
