@@ -6,9 +6,7 @@ scope: source.kdesrc-build
 
 file_extensions:
   - kdesrc-buildrc
-
-# keep them in sync with settings and with upstream repo
-hidden_extensions:
+  # keep them in sync with settings and with upstream repo
   - custom-qt5-libs-build-include
   - custom-qt6-libs-build-include
   - kdesrc-buildrc-kf5-sample
