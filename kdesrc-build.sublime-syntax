@@ -247,14 +247,14 @@ contexts:
     - match: (?=\S)
       set:
         - meta_include_prototype: false
-        - meta_content_scope: string.quoted.kdesrc-build
+        - meta_content_scope: string.unquoted.kdesrc-build
         - match: (\\)$\n?
           captures:
             1: punctuation.separator.continuation.kdesrc-build
         - match: \n
           pop: 1
         - match: \s*(?=\#)
-          comment: keep meta.expected-string but discard string.quoted
+          comment: keep meta.expected-string but discard string.unquoted
           pop: 1
         - include: string-numeric-value
         - include: string-cmake-option
