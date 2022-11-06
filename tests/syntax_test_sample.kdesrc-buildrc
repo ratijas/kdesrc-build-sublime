@@ -51,7 +51,7 @@ end global
 module-set extragear-graphics
 # <- meta.block.module-set.kdesrc-build keyword.other.region.kdesrc-build
 # ^^^^^^^^ meta.block.module-set.kdesrc-build keyword.other.region.kdesrc-build
-#          ^^^^^^^^^^^^^^^^^^ meta.block.module-set.kdesrc-build entity.name.enum.kdesrc-build
+#          ^^^^^^^^^^^^^^^^^^ meta.block.module-set.kdesrc-build entity.name.constant.kdesrc-build
 
     cmake-options -DBUILD_TESTING=TRUE -DBUILD_WITH_QT6=ON \
 #   ^^^^^^^^^^^^^ support.function.kdesrc-build
@@ -76,7 +76,7 @@ end module-set
 
 module gammaray
 # ^^^^ meta.block.module.kdesrc-build keyword.other.region.kdesrc-build
-#      ^^^^^^^^ meta.block.module.kdesrc-build entity.name.enum.kdesrc-build
+#      ^^^^^^^^ meta.block.module.kdesrc-build entity.name.constant.kdesrc-build
 
     repository https://github.com/KDAB/GammaRay
 #   ^^^^^^^^^^ support.function.kdesrc-build
@@ -92,7 +92,7 @@ end module
 options kcoreaddons
 # <- meta.block.options.kdesrc-build keyword.other.region.kdesrc-build
 # ^^^^^ meta.block.options.kdesrc-build keyword.other.region.kdesrc-build
-#       ^^^^^^^^^^^ meta.block.options.kdesrc-build entity.name.enum.kdesrc-build
+#       ^^^^^^^^^^^ meta.block.options.kdesrc-build variable.other.constant.kdesrc-build
 
     make-options -j ${num_cores}
 #   ^^^^^^^^^^^^ support.function.kdesrc-build
@@ -180,7 +180,7 @@ end options
 
 options null options
 # ^^^^^ meta.block.options.kdesrc-build keyword.other.region.kdesrc-build
-#       ^^^^ meta.block.options.kdesrc-build entity.name.enum.kdesrc-build
+#       ^^^^ meta.block.options.kdesrc-build variable.other.constant.kdesrc-build
 #            ^^^^^^^ meta.block.options.kdesrc-build invalid.illegal.kdesrc-build
 end options
 

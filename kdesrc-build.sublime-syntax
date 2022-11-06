@@ -374,7 +374,7 @@ contexts:
     - match: ^\s*(module-set){{identifier_break}}(?:[ \t]+({{identifier}}))?
       captures:
         1: keyword.other.region.kdesrc-build
-        2: entity.name.enum.kdesrc-build
+        2: entity.name.constant.kdesrc-build
       push:
         - module-set-region-body
         - eol-or-error
@@ -400,7 +400,7 @@ contexts:
     - match: ^\s*(module){{identifier_break}}(?:[ \t]+({{identifier}}))?
       captures:
         1: keyword.other.region.kdesrc-build
-        2: entity.name.enum.kdesrc-build
+        2: entity.name.constant.kdesrc-build
       push:
         - module-region-body
         - eol-or-error
@@ -426,7 +426,7 @@ contexts:
     - match: ^\s*(options){{identifier_break}}(?:[ \t]+({{identifier}}))?
       captures:
         1: keyword.other.region.kdesrc-build
-        2: entity.name.enum.kdesrc-build
+        2: variable.other.constant.kdesrc-build
       push:
         - options-region-body
         - eol-or-error
