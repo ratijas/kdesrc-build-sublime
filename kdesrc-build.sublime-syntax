@@ -50,6 +50,8 @@ variables:
     | override-build-system|override-url|prefix|qtdir|repository
     | revision|source-dir|svn-server|tag|remove-after-install
     | qmake-options|git-user|directory-layout
+    # extra options not found in upstream vim syntax at the time of writing
+    | set-env # this seems to be allowed on any level
     ){{identifier_break}}
 
   global_string_option: |-
