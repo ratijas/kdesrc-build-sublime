@@ -30,7 +30,7 @@ global
 #   ^^^^^^^^^^^^^ support.function.kdesrc-build
 #                 ^^^^^^^^^^^^^^^^^ string.unquoted.kdesrc-build
 #                 ^^ storage.modifier.cmake.kdesrc-build
-#                   ^^^^^^^^^^^^^ entity.name.constant.kdesrc-build
+#                   ^^^^^^^^^^^^^ entity.name.constant.cmake
 #                                ^ keyword.operator.assignment.kdesrc-build
 #                                 ^ constant.language.boolean.true.kdesrc-build
 

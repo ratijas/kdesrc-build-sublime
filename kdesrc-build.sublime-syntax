@@ -290,7 +290,7 @@ contexts:
     - match: (-D)({{cmake_identifier}})(=?)
       captures:
         1: storage.modifier.cmake.kdesrc-build
-        2: entity.name.constant.kdesrc-build
+        2: entity.name.constant.cmake variable.other.readwrite.cmake
         3: keyword.operator.assignment.kdesrc-build
       push: string-cmake-option-value
 
