@@ -41,7 +41,7 @@ variables:
   # Copied from Markdown.sublime-syntax
   html_entity: '&([a-zA-Z0-9]+|#\d+|#[Xx]\h+);'
 
-  option: |-
+  string_option: |-
     (?x:
       binpath|branch|build-dir|checkout-only|cmake-options|configure-flags
     | custom-build-command|cxxflags|dest-dir|do-not-compile|kdedir
@@ -52,7 +52,7 @@ variables:
     | qmake-options|git-user|directory-layout
     ){{identifier_break}}
 
-  global_option: |-
+  global_string_option: |-
     (?x:
       branch-group|git-desired-protocol|git-repository-base|http-proxy
     | kde-languages|niceness|debug-level|persistent-data-file|set-env
@@ -138,20 +138,29 @@ contexts:
       scope: string.unquoted.kdesrc-build
       pop: 1
 
-  option:
-    - match: '{{option}}'
+  # GLOBAL
+
+  global-string-option:
+    - match: '{{global_string_option}}'
       scope: support.function.kdesrc-build
       set: string-value
 
-  global-option:
-    - match: '{{global_option}}'
-      scope: support.function.kdesrc-build
-      set: string-value
-
-  error-global-option:
-    - match: '{{global_option}}'
+  error-global-string-option:
+    - match: '{{global_string_option}}'
       scope: invalid.illegal.global-option.kdesrc-build
       set: string-value
+
+  global-bool-option:
+    - match: '{{global_bool_option}}'
+      scope: support.function.kdesrc-build
+      set: bool-value
+
+  error-global-bool-option:
+    - match: '{{global_bool_option}}'
+      scope: invalid.illegal.global-option.kdesrc-build
+      set: bool-value
+
+  # MODULE-SET
 
   module-set-option:
     - match: '{{module_set_option}}'
@@ -163,20 +172,19 @@ contexts:
       scope: invalid.illegal.module-set-option.kdesrc-build
       set: string-value
 
+  # these two are allowed at any region / level
+
+  string-option:
+    - match: '{{string_option}}'
+      scope: support.function.kdesrc-build
+      set: string-value
+
   bool-option:
     - match: '{{bool_option}}'
       scope: support.function.kdesrc-build
       set: bool-value
 
-  global-bool-option:
-    - match: '{{global_bool_option}}'
-      scope: support.function.kdesrc-build
-      set: bool-value
-
-  error-bool-option:
-    - match: '{{global_bool_option}}'
-      scope: invalid.illegal.global-option.kdesrc-build
-      set: bool-value
+  # END REGIONS
 
   unknown-option:
     - match: '{{identifier}}'
@@ -355,8 +363,8 @@ contexts:
       push: global-statements
 
   global-statements:
-    - include: option
-    - include: global-option
+    - include: string-option
+    - include: global-string-option
     - include: global-bool-option
     - include: bool-option
     - include: error-module-set-option
@@ -381,11 +389,11 @@ contexts:
       push: module-set-statements
 
   module-set-statements:
-    - include: option
+    - include: string-option
     - include: module-set-option
     - include: bool-option
-    - include: error-bool-option
-    - include: error-global-option
+    - include: error-global-bool-option
+    - include: error-global-string-option
     - include: unknown-option
 
   module-region:
@@ -404,7 +412,15 @@ contexts:
       set: eol-or-error
     - include: end-unbalanced
     - match: (?=\S)
-      push: option-or-module-statements
+      push: module-statements
+
+  module-statements:
+    - include: string-option
+    - include: bool-option
+    - include: error-module-set-option
+    - include: error-global-bool-option
+    - include: error-global-string-option
+    - include: unknown-option
 
   options-region:
     - match: ^\s*(options){{identifier_break}}(?:[ \t]+({{identifier}}))?
@@ -422,14 +438,13 @@ contexts:
       set: eol-or-error
     - include: end-unbalanced
     - match: (?=\S)
-      push: option-or-module-statements
+      push: module-or-module-set-statements
 
-  option-or-module-statements:
-    - include: option
+  module-or-module-set-statements:
+    - include: string-option
     - include: bool-option
-    - include: error-bool-option
-    - include: error-module-set-option
-    - include: error-global-option
+    - include: error-global-bool-option
+    - include: error-global-string-option
     - include: unknown-option
 
   end-unbalanced:
