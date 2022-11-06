@@ -112,7 +112,8 @@ end options
 include /path/to/kdesrc-build/kf5-qt5-build-include
 # <- keyword.import.kdesrc-build
 # ^^^^^ keyword.import.kdesrc-build
-#       ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ markup.underline.link.kdesrc-build
+#       ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.expect.path.kdesrc-build string.unquoted.kdesrc-build
+#                                                  ^ - meta.expect.path.kdesrc-build string.unquoted.kdesrc-build
 
 # And now for some illegal stuff
 

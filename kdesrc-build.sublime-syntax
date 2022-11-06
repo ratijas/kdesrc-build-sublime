@@ -124,14 +124,18 @@ contexts:
   include:
     - match: include{{identifier_break}}
       scope: keyword.import.kdesrc-build
-      set: path
+      set:
+        - path
+        - skip-1-space
 
   path:
-    - match: \s*$
+    - meta_scope: meta.expect.path.kdesrc-build
+
+    - match: \s*$\n?
       pop: 1
 
-    - match: \S[^$]*
-      scope: markup.underline.link.kdesrc-build
+    - match: \S[^\n]*
+      scope: string.unquoted.kdesrc-build
       pop: 1
 
   option:
@@ -218,8 +222,10 @@ contexts:
 
   skip-1-space:
     - meta_include_prototype: false
-    - match: ' ?'
+    - match: ' '
       pop: 1
+    - match: ''
+      pop: 2
 
   string-expected-value:
     - meta_include_prototype: false
