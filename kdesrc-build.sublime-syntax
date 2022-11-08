@@ -366,9 +366,11 @@ contexts:
 
   global-statements:
     - include: string-option
+    - include: bool-option
+
     - include: global-string-option
     - include: global-bool-option
-    - include: bool-option
+
     - include: error-module-set-option
     - include: unknown-option
 
@@ -392,8 +394,10 @@ contexts:
 
   module-set-statements:
     - include: string-option
-    - include: module-set-option
     - include: bool-option
+
+    - include: module-set-option
+
     - include: error-global-bool-option
     - include: error-global-string-option
     - include: unknown-option
@@ -419,9 +423,12 @@ contexts:
   module-statements:
     - include: string-option
     - include: bool-option
+
     - include: error-module-set-option
+
     - include: error-global-bool-option
     - include: error-global-string-option
+
     - include: unknown-option
 
   options-region:
@@ -445,8 +452,10 @@ contexts:
   module-or-module-set-statements:
     - include: string-option
     - include: bool-option
+
     - include: error-global-bool-option
     - include: error-global-string-option
+
     - include: unknown-option
 
   end-unbalanced:
