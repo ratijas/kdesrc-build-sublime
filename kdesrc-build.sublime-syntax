@@ -41,44 +41,90 @@ variables:
   # Copied from Markdown.sublime-syntax
   html_entity: '&([a-zA-Z0-9]+|#\d+|#[Xx]\h+);'
 
-  string_option: |-
+
+  global_bool_option: |-
     (?x:
-      binpath|branch|build-dir|checkout-only|cmake-options|configure-flags
-    | custom-build-command|cxxflags|dest-dir|do-not-compile|kdedir
-    | libpath|log-dir|make-install-prefix|make-options|module-base-path
-    | cmake-generator|cmake-toolchain|ninja-options
-    | override-build-system|override-url|prefix|qtdir|repository
-    | revision|source-dir|svn-server|tag|remove-after-install
-    | qmake-options|git-user|directory-layout
-    # extra options not found in upstream vim syntax at the time of writing
-    | set-env # this seems to be allowed on any level
+      async
+    | colorful-output
+    | disable-agent-check
+    | email-address           # deprecated
+    | email-on-compile-error  # deprecated
+    | install-environment-driver
+    | install-session-driver
+    | use-idle-io-priority
+    | use-inactive-modules
     ){{identifier_break}}
 
   global_string_option: |-
     (?x:
-      branch-group|git-desired-protocol|git-repository-base|http-proxy
-    | kde-languages|niceness|debug-level|persistent-data-file|set-env
-    | num-cores|num-cores-low-mem
-    # extra options not found in upstream vim syntax at the time of writing
-    | directory-structure
+    | git-desired-protocol
+    | git-repository-base
+    | kde-languages
+    | niceness
+    | num-cores
+    | num-cores-low-mem
+    | persistent-data-file
+    | ssh-identity-file
     ){{identifier_break}}
 
-  module_set_option: (?:use-modules|ignore-modules){{identifier_break}}
+  module_set_option: (?:use-modules){{identifier_break}}
 
   bool_option: |-
     (?x:
-      build-system-only|build-when-unchanged|ignore-kde-structure
-    | include-dependencies|install-after-build|manual-build|manual-update
-    | no-src|reconfigure|recreate-configure|refresh-build|run-tests
-    | use-clean-install|compile-commands-export|compile-commands-linking
+      build-when-unchanged
+    | checkout-only
+    | compile-commands-export
+    | compile-commands-linking
+    | ignore-kde-structure
+    | include-dependencies
+    | install-after-build
+    | manual-build
+    | manual-update
+    | no-svn
+    | purge-old-logs
+    | run-tests
+    | stop-on-failure
+    | use-clean-install
     ){{identifier_break}}
 
-  global_bool_option: |-
+  string_option: |-
     (?x:
-      async|colorful-output|disable-agent-check|disable-snapshots|pretend
-    | purge-old-logs|stop-on-failure|use-idle-io-priority|install-session-driver
-    | install-environment-driver
-    )
+      binpath
+    | branch
+    | branch-group
+    | build-dir
+    | cmake-generator
+    | cmake-toolchain
+    | cmake-options
+    | configure-flags
+    | custom-build-command
+    | cxxflags
+    | dest-dir
+    | do-not-compile
+    | git-user
+    | http-proxy
+    | directory-layout
+    | ignore-modules
+    | kdedir
+    | libpath
+    | log-dir
+    | make-install-prefix
+    | make-options
+    | module-base-path
+    | ninja-options
+    | override-build-system
+    | override-url
+    | prefix
+    | qmake-options
+    | qtdir
+    | remove-after-install
+    | repository
+    | revision
+    | set-env
+    | source-dir
+    | svn-server
+    | tag
+    ){{identifier_break}}
 
 contexts:
   main:
