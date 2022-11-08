@@ -1,0 +1,416 @@
+[
+  {
+    "name": "async",
+    "anchor": "conf-async",
+    "region": 1,
+    "notes": "<p>This option enables the asynchronous mode of operation, where the source\ncode update and the build process will be performed in parallel, instead of waiting for\nall of the source code updates before starting the build process.  This option defaults\nto enabling asynchronous mode.  To disable, set this option to <strong class=\"userinput\"><code>false</code></strong></p>\n<p>This option is available since the 1.6 release.</p>"
+  },
+  {
+    "name": "binpath",
+    "anchor": "conf-binpath",
+    "region": 0,
+    "notes": "<p>Set this option to set the environment variable PATH while building.\nYou cannot override this setting in a module option. The default value is\nthe $<code class=\"envar\">PATH</code> that is set when the script starts. This environment\nvariable should include the colon-separated paths of your development\ntoolchain. The paths <code class=\"filename\">$<code class=\"envar\">KDEDIR</code>/bin</code> and\n<code class=\"filename\">$<code class=\"envar\">QTDIR</code>/bin</code> are automatically added. You\nmay use the tilde (~) for any paths you add using this option.</p>"
+  },
+  {
+    "name": "branch",
+    "anchor": "conf-branch",
+    "region": 0,
+    "notes": "<p>Set this option to checkout from a branch of <span class=\"orgname\">KDE</span> instead of the\ndefault of <em class=\"replaceable\"><code>master</code></em> (for <span class=\"application\">Git</span> modules) or\n<em class=\"replaceable\"><code>trunk</code></em> (for <span class=\"application\">Subversion</span>), where <span class=\"orgname\">KDE</span> development\noccurs.</p>\n<p>\nFor instance, to checkout <span class=\"orgname\">KDE</span> 4.6 branch, you would set this option to\n<em class=\"replaceable\"><code>4.6</code></em>.</p>\n<p>If <span class=\"application\">kdesrc-build</span> fails to properly download a branch with this option, you\nmay have to manually specify the <acronym class=\"acronym\">URL</acronym> to download from using the <a class=\"link\" href=\"https://docs.kde.org/trunk5/en/kdesrc-build/kdesrc-build/conf-options-table.html#conf-module-base-path\">module-base-path</a> or <a class=\"link\" href=\"https://docs.kde.org/trunk5/en/kdesrc-build/kdesrc-build/conf-options-table.html#conf-override-url\">override-url</a> options.</p>\n<div class=\"note\" style=\"margin-left: 0.5in; margin-right: 0.5in;\"><h3 class=\"title\">Note</h3><p>For most <span class=\"orgname\">KDE</span> modules you probably wish to use the <a class=\"link\" href=\"https://docs.kde.org/trunk5/en/kdesrc-build/kdesrc-build/conf-options-table.html#conf-branch-group\">branch-group</a> option instead and use this\noption for case-by-case exceptions.</p></div>"
+  },
+  {
+    "name": "branch-group",
+    "anchor": "conf-branch-group",
+    "region": 0,
+    "notes": "<p>Set this option to a general group from which you want modules to be\nchosen.</p>\n<p>For supported <span class=\"application\">Git</span> module types, <span class=\"application\">kdesrc-build</span> will determine the\nactual branch to use automatically based on rules encoded by the <span class=\"orgname\">KDE</span>\ndevelopers (these rules may be viewed in the\n<code class=\"literal\">kde-build-metadata</code> source repository in your source\ndirectory). After a branch is determined that branch is used as if you had\nspecified it yourself using the <a class=\"link\" href=\"https://docs.kde.org/trunk5/en/kdesrc-build/kdesrc-build/conf-options-table.html#conf-branch\">branch</a>\noption.\n</p>\n<p>This is useful if you're just trying to maintain up-to-date on some\nnormal development track without having to pay attention to all the branch name\nchanges.</p>\n<p>The current branch groups (as of 2013-08-11) are:</p>\n<div class=\"itemizedlist\"><ul class=\"itemizedlist\" style=\"list-style-type: disc; \"><li class=\"listitem\"><p><code class=\"literal\">stable-qt4</code>, for tracking bugfixes to the\n<span class=\"trademark\">Qt</span>\u2122 4-based <span class=\"orgname\">KDE</span> libraries and applications.</p></li><li class=\"listitem\"><p><code class=\"literal\">latest-qt4</code>, for tracking development and new\nfeatures for the <span class=\"trademark\">Qt</span>\u2122 4-based <span class=\"orgname\">KDE</span> libraries and\napplications.</p></li><li class=\"listitem\"><p><code class=\"literal\">kf5-qt5</code>, for tracking\n<span class=\"quote\">\u201c<span class=\"quote\">bleeding-edge</span>\u201d</span> development for the upcoming <span class=\"trademark\">Qt</span>\u2122 5-based <span class=\"orgname\">KDE</span>\nFrameworks 5, <span class=\"productname\">Plasma</span> Workspace 2, <abbr class=\"abbrev\">etc.</abbr></p></li></ul></div>\n<p>Note that if you <span class=\"emphasis\"><em>do</em></span> choose a\n<code class=\"literal\">branch</code> yourself, that it will override this setting. The\nsame is true of other specific branch selection options such as <a class=\"link\" href=\"https://docs.kde.org/trunk5/en/kdesrc-build/kdesrc-build/conf-options-table.html#conf-tag\">tag</a>.</p>\n<p>This option was added in <span class=\"application\">kdesrc-build</span> 1.16-pre2.</p>\n<div class=\"note\" style=\"margin-left: 0.5in; margin-right: 0.5in;\"><h3 class=\"title\">Note</h3><p>This option only applies to <code class=\"literal\">kde-projects</code> <span class=\"application\">Git</span>\nmodules (the common case).  See also <a class=\"xref\" href=\"https://docs.kde.org/trunk5/en/kdesrc-build/kdesrc-build/kde-modules-and-selection.html#kde-projects-module-sets\" title=\"The official KDE module database\">the section called \u201cThe official <span class=\"orgname\">KDE</span> module database\u201d</a>.\n</p></div>"
+  },
+  {
+    "name": "build-dir",
+    "anchor": "conf-build-dir",
+    "region": 0,
+    "notes": "Use this option to change the directory to contain the built sources. There\nare three different ways to use it:\n\n<div class=\"orderedlist\"><ol class=\"orderedlist\" type=\"1\"><li class=\"listitem\"><p>Relative to the <span class=\"orgname\">KDE</span> <span class=\"application\">Subversion</span> source directory (see <a class=\"link\" href=\"https://docs.kde.org/trunk5/en/kdesrc-build/kdesrc-build/conf-options-table.html#conf-source-dir\">the source-dir option</a>). This is the default,\nand is selected if you type a directory name that does not start with a tilde\n(~) or a slash (/).</p> <p>The default value is <code class=\"filename\">build</code>.</p></li><li class=\"listitem\"><p>Absolute path. If you specify a path that begins with a /, then\nthat path is used directly. For example, <code class=\"filename\">/tmp/kde-obj-dir/</code>.</p></li><li class=\"listitem\"><p>Relative to your home directory. If you specify a path that\nbegins with a ~, then the path is used relative to your home directory,\nanalogous to the shell's tilde-expansion. For example, <code class=\"filename\">~/builddir</code> would set the build directory to\n<code class=\"filename\">/home/user-name/builddir</code>.</p></li></ol></div>\n\nPerhaps surprisingly, this option can be changed per module."
+  },
+  {
+    "name": "build-when-unchanged",
+    "anchor": "conf-build-when-unchanged",
+    "region": 0,
+    "notes": "<p>Use this option in order to control whether <span class=\"application\">kdesrc-build</span> always\ntries to build a module that has not had any source code updates.</p>\n<p>By setting <code class=\"option\">build-when-unchanged</code> to\n<strong class=\"userinput\"><code>true</code></strong>, <span class=\"application\">kdesrc-build</span> always attempts the build phase\nfor a module, even if the module did not have any source code updates. This is\nthe default setting since it is more likely to lead to a correct\nbuild.</p>\n<p>By setting <code class=\"option\">build-when-unchanged</code> to\n<strong class=\"userinput\"><code>false</code></strong>, <span class=\"application\">kdesrc-build</span> will only attempt to run the\nbuild phase for a module if the module has a source code update, or in other\nsituations where it is likely that a rebuild is actually required. This can save\ntime, especially if you run <span class=\"application\">kdesrc-build</span> daily, or more frequently.</p>\n<div class=\"important\" style=\"margin-left: 0.5in; margin-right: 0.5in;\"><h3 class=\"title\">Important</h3><p>This feature is provided as an optimization only. Like many\nother optimizations, there are trade-offs for the correctness of your\ninstallation. For instance, changes to the qt or kdelibs modules may cause\na rebuild of other modules to be necessary, even if the source code doesn't\nchange at all.</p></div>"
+  },
+  {
+    "name": "checkout-only",
+    "anchor": "conf-checkout-only",
+    "region": 0,
+    "notes": "<p>This option was removed in January 2022. It used to control\nthe ability to checkout subsets of a module from a Subversion repository.</p>"
+  },
+  {
+    "name": "cmake-generator",
+    "anchor": "conf-cmake-generator",
+    "region": 0,
+    "notes": "<p>Use this option to specify which generator to use with <span class=\"application\">CMake</span>.\nCurrently both <code class=\"literal\">Ninja</code> and <code class=\"literal\">Unix Makefiles</code>\nas well as extra generators based on them like <code class=\"literal\">Eclipse CDT4 - Ninja\n</code> are supported. Invalid (unsupported) values are ignored and treated\nas if unset. If not set <code class=\"literal\">Unix Makefiles</code> will be used by\ndefault.\n</p>\n<p>Note that if a valid generator is also specified through\n<a class=\"link\" href=\"https://docs.kde.org/trunk5/en/kdesrc-build/kdesrc-build/conf-options-table.html#conf-cmake-options\">cmake-options</a> it will override the\nvalue for <code class=\"literal\">cmake-generator</code>.</p>"
+  },
+  {
+    "name": "cmake-toolchain",
+    "anchor": "conf-cmake-toolchain",
+    "region": 0,
+    "notes": "<p>Use this option to specify a toolchain file to use with <span class=\"application\">CMake</span>.\n</p>\n<p>When a valid toolchain file is configured, <span class=\"application\">kdesrc-build</span> will\n<span class=\"emphasis\"><em>no longer set environment variables automatically</em></span>.\nYou can use <a class=\"link\" href=\"https://docs.kde.org/trunk5/en/kdesrc-build/kdesrc-build/conf-options-table.html#conf-set-env\">set-env</a>, <a class=\"link\" href=\"https://docs.kde.org/trunk5/en/kdesrc-build/kdesrc-build/conf-options-table.html#conf-binpath\">binpath</a> and <a class=\"link\" href=\"https://docs.kde.org/trunk5/en/kdesrc-build/kdesrc-build/conf-options-table.html#conf-libpath\">libpath</a> to fix up the environment\nmanually if your toolchain file does not work out of the box with\n<span class=\"application\">kdesrc-build</span>. Refer to <a class=\"link\" href=\"https://docs.kde.org/trunk5/en/kdesrc-build/kdesrc-build/basic-features.html#kdesrc-build-std-flags\" title=\"Standard flags added by kdesrc-build\">the overview\nof standard flags added by <span class=\"application\">kdesrc-build</span></a> for more information.\n</p>\n<p>Note that if a valid toolchain is also specified through\n<a class=\"link\" href=\"https://docs.kde.org/trunk5/en/kdesrc-build/kdesrc-build/conf-options-table.html#conf-cmake-options\">cmake-options</a> it will override the\nvalue for <code class=\"literal\">cmake-toolchain</code>.</p>"
+  },
+  {
+    "name": "cmake-options",
+    "anchor": "conf-cmake-options",
+    "region": 0,
+    "notes": "<p>Use this option to specify what flags to pass to <span class=\"application\">CMake</span> when\ncreating the build system for the module. When this is used as a global option,\nit is applied to all modules that this script builds. When used as a module\noption, it is added to the end of the global options. This allows you to\nspecify common <span class=\"application\">CMake</span> options in the global section.</p>\n<p>This option does not apply to qt (which does not use <span class=\"application\">CMake</span>). Use\n<a class=\"link\" href=\"https://docs.kde.org/trunk5/en/kdesrc-build/kdesrc-build/conf-options-table.html#conf-configure-flags\">configure-flags</a> instead.</p>\n<p>If a valid generator is specified among the listed options it will\noverride the value of\n<a class=\"link\" href=\"https://docs.kde.org/trunk5/en/kdesrc-build/kdesrc-build/conf-options-table.html#conf-cmake-generator\">cmake-generator</a>. Invalid\n(unsupported) generators are ignored and will not be passed to <span class=\"application\">CMake</span>.\n</p>\n<p>If a valid toolchain file is specified among the listed options it will\noverride the value of\n<a class=\"link\" href=\"https://docs.kde.org/trunk5/en/kdesrc-build/kdesrc-build/conf-options-table.html#conf-cmake-toolchain\">cmake-toolchain</a>. Invalid\ntoolchains are ignored and will not be passed to <span class=\"application\">CMake</span>.\n</p>\n<p>Since these options are passed directly to the <span class=\"application\">CMake</span> command line, they\nshould be given as they would be typed into <span class=\"application\">CMake</span>. For example:</p>\n<pre class=\"screen\">  cmake-options -DCMAKE_BUILD_TYPE=RelWithDebInfo\n</pre>\n<p>Since this is a hassle, <span class=\"application\">kdesrc-build</span> takes pains to ensure that as long\nas the rest of the options are set correctly, you should be able to leave this\noption blank. (In other words, <span class=\"emphasis\"><em>required</em></span> <span class=\"application\">CMake</span> parameters\nare set for you automatically)</p>"
+  },
+  {
+    "name": "colorful-output",
+    "anchor": "conf-colorful-output",
+    "region": 1,
+    "notes": "Set this option to <strong class=\"userinput\"><code>false</code></strong> to disable the colorful output of <span class=\"application\">kdesrc-build</span>.\nThis option defaults to <em class=\"replaceable\"><code>true</code></em>. Note that <span class=\"application\">kdesrc-build</span> will not output the\ncolor codes to anything but a terminal (such as xterm, <span class=\"application\">Konsole</span>, or the normal\n<span class=\"trademark\">Linux</span>\u00ae console)."
+  },
+  {
+    "name": "compile-commands-export",
+    "anchor": "conf-compile-commands-export",
+    "region": 0,
+    "notes": "<p>Enables the generation of a <code class=\"literal\">compile_commands.json</code> via CMake inside the build directory.\nThis option defaults to <em class=\"replaceable\"><code>true</code></em>, set it to <strong class=\"userinput\"><code>false</code></strong> to disable\nthis behavior.\n</p>"
+  },
+  {
+    "name": "compile-commands-linking",
+    "anchor": "conf-compile-commands-linking",
+    "region": 0,
+    "notes": "<p>Enables the creation of symbolic links from <code class=\"literal\">compile_commands.json</code> generated via CMake\ninside the build directory to the matching source directory.\nThis option defaults to <em class=\"replaceable\"><code>false</code></em>, set it to <strong class=\"userinput\"><code>true</code></strong> to enable\nthe automatic symbolic link creation.\n</p>"
+  },
+  {
+    "name": "configure-flags",
+    "anchor": "conf-configure-flags",
+    "region": 0,
+    "notes": "<p>Use this option to specify what flags to pass to ./configure when\ncreating the build system for the module. When this is used as a global-option,\nit is applied to all modules that this script builds. <span class=\"emphasis\"><em>This option\nonly works for qt.</em></span></p>\n<p>To change configuration settings for KDE modules, see\n<a class=\"link\" href=\"https://docs.kde.org/trunk5/en/kdesrc-build/kdesrc-build/conf-options-table.html#conf-cmake-options\">cmake-options</a>.\n</p>"
+  },
+  {
+    "name": "custom-build-command",
+    "anchor": "conf-custom-build-command",
+    "region": 0,
+    "notes": "<p>This option can be set to run a different command (other than\n    <span class=\"command\"><strong>make</strong></span>, for example) in order to perform the build\n    process.  <span class=\"application\">kdesrc-build</span> should in general do the right thing, so you\n    should not need to set this option. However it can be useful to use\n    alternate build systems.\n    </p>\n<p>The value of this option is used as the command line to run, modified\n    by the <a class=\"link\" href=\"https://docs.kde.org/trunk5/en/kdesrc-build/kdesrc-build/conf-options-table.html#conf-make-options\">make-options</a> option as\n    normal.\n    </p>"
+  },
+  {
+    "name": "cxxflags",
+    "anchor": "conf-cxxflags",
+    "region": 0,
+    "notes": "<p>Use this option to specify what flags to use for building the\nmodule. This option is\nspecified here instead of with <a class=\"link\" href=\"https://docs.kde.org/trunk5/en/kdesrc-build/kdesrc-build/conf-options-table.html#conf-configure-flags\">configure-flags</a> or <a class=\"link\" href=\"https://docs.kde.org/trunk5/en/kdesrc-build/kdesrc-build/conf-options-table.html#conf-cmake-options\">cmake-options</a> because this option will also\nset the environment variable <code class=\"envar\">CXXFLAGS</code> during the build process.</p>\n<p>Note that for <span class=\"orgname\">KDE</span> 4 and any other modules that use <span class=\"application\">CMake</span>, it is\nnecessary to set the CMAKE_BUILD_TYPE option to <strong class=\"userinput\"><code>none</code></strong>\nwhen configuring the module.  This can be done using the <a class=\"link\" href=\"https://docs.kde.org/trunk5/en/kdesrc-build/kdesrc-build/conf-options-table.html#conf-cmake-options\">cmake-options</a> option.\n</p>"
+  },
+  {
+    "name": "dest-dir",
+    "anchor": "conf-dest-dir",
+    "region": 0,
+    "notes": "Use this option to change the name a module is given on disk. For\nexample, if your module was extragear/network, you could rename it to\nextragear-network using this option.  Note that although this changes the\nname of the module on disk, it is not a good idea to include directories\nor directory separators in the name as this will interfere with any\n<a class=\"link\" href=\"https://docs.kde.org/trunk5/en/kdesrc-build/kdesrc-build/conf-options-table.html#conf-build-dir\">build-dir</a> or\n<a class=\"link\" href=\"https://docs.kde.org/trunk5/en/kdesrc-build/kdesrc-build/conf-options-table.html#conf-source-dir\">source-dir</a> options."
+  },
+  {
+    "name": "disable-agent-check",
+    "anchor": "conf-disable-agent-check",
+    "region": 1,
+    "notes": "Normally if you are using <span class=\"application\">SSH</span> to download the <span class=\"application\">Subversion</span> sources\n(such as if you are using the svn+ssh protocol), <span class=\"application\">kdesrc-build</span> will try and\nmake sure that if you are using ssh-agent, it is actually managing some <span class=\"application\">SSH</span>\nidentities. This is to try and prevent <span class=\"application\">SSH</span> from asking for your pass phrase\nfor every module. You can disable this check by setting\n<code class=\"option\">disable-agent-check</code> to <strong class=\"userinput\"><code>true</code></strong>."
+  },
+  {
+    "name": "do-not-compile",
+    "anchor": "conf-do-not-compile",
+    "region": 0,
+    "notes": "<p>Use this option to select a specific set of directories not to be built in a\nmodule (instead of all of them). The directories not to build should be space-separated.</p>\n<p>Note that the sources to the programs will still be downloaded.</p>\n<p>For example, to disable building the <code class=\"literal\">codeeditor</code> and <code class=\"literal\">minimaltest</code>\ndirectories of the <code class=\"literal\">syntaxhighlighting</code> framework, you\nwould add <strong class=\"userinput\"><code>do-not-compile codeeditor minimaltest</code></strong>\ncompiling, you would add \"do-not-compile juk kscd\" to your syntaxhighlighting\noptions.</p>\n<p>See <a class=\"xref\" href=\"https://docs.kde.org/trunk5/en/kdesrc-build/kdesrc-build/advanced-features.html#not-compiling\" title=\"Removing directories from a build\">the section called \u201cRemoving directories from a build\u201d</a> for an example.</p>"
+  },
+  {
+    "name": "email-address",
+    "anchor": "conf-email-address",
+    "region": 1,
+    "notes": "<p>This option was removed in <span class=\"application\">kdesrc-build</span> 1.14.\n</p>"
+  },
+  {
+    "name": "email-on-compile-error",
+    "anchor": "conf-email-on-compile-error",
+    "region": 1,
+    "notes": "<p>This option was removed in <span class=\"application\">kdesrc-build</span> 1.14.\n</p>"
+  },
+  {
+    "name": "git-desired-protocol",
+    "anchor": "conf-git-desired-protocol",
+    "region": 1,
+    "notes": "<p>This option only applies to modules from a <a class=\"link\" href=\"https://docs.kde.org/trunk5/en/kdesrc-build/kdesrc-build/kde-modules-and-selection.html#kde-projects-module-sets\" title=\"The official KDE module database\"><span class=\"orgname\">KDE</span> project</a> repository.</p>\n<p>What this option actually does is configure which network protocol to\nprefer when pushing source code for these modules. Normally the very-efficient\n<code class=\"literal\">git</code> protocol is used, but this may be blocked in some\nnetworks (e.g. corporate intranets, public Wi-Fi). An alternative protocol\nwhich is much better supported is the <code class=\"literal\">https</code> protocol used for\nInternet web sites.</p>\n<p>If you are using one of these constrained networks you can set this\noption to <strong class=\"userinput\"><code>http</code></strong> to prefer <code class=\"literal\">https</code>\ncommunications instead.</p>\n<div class=\"tip\" style=\"margin-left: 0.5in; margin-right: 0.5in;\"><h3 class=\"title\">Tip</h3><p>You may also need the <a class=\"link\" href=\"https://docs.kde.org/trunk5/en/kdesrc-build/kdesrc-build/conf-options-table.html#conf-http-proxy\">http-proxy</a> option if an HTTP proxy is also\nneeded for network traffic.</p></div>\n<p>In any other situation you should not set this option as the default\nprotocol is most efficient.</p>\n<p>This option was added in <span class=\"application\">kdesrc-build</span> 1.16. Prior to 20.06 this option\nwas used to configure the fetch URL instead of the push URL. As of 20.06\n<code class=\"literal\">https</code> is always used when updating KDE projects.</p>"
+  },
+  {
+    "name": "git-repository-base",
+    "anchor": "conf-git-repository-base",
+    "region": 1,
+    "notes": "<p>This option, added in version 1.12.1, is used to create a short\nname to reference a specific Git repository base URL in later <a class=\"link\" href=\"https://docs.kde.org/trunk5/en/kdesrc-build/kdesrc-build/kde-modules-and-selection.html#module-sets\" title=\"Module Sets\">module set</a> declarations, which is useful for\nquickly declaring many Git modules to build.</p>\n<p>You must specify two things (separated by a space): The name to assign\nto the base URL, and the actual base URL itself. For example:</p>\n<p>\n</p><div class=\"informalexample\">\n<pre class=\"programlisting\">\nglobal\n   # other options\n\n   # This is the common path to all anonymous Git server modules.\n   git-repository-base <em class=\"replaceable\"><code>kde-git</code></em> <em class=\"replaceable\"><code>kde:</code></em>\nend global\n\n# Module declarations\n\nmodule-set\n   # Now you can use the alias you defined earlier, but <span class=\"emphasis\"><em>only</em></span>\n   # in a module-set.\n   repository <em class=\"replaceable\"><code>kde-git</code></em>\n\n   <a class=\"link\" href=\"https://docs.kde.org/trunk5/en/kdesrc-build/kdesrc-build/conf-options-table.html#conf-use-modules\">use-modules</a> <em class=\"replaceable\"><code>module1.git</code></em> <em class=\"replaceable\"><code>module2.git</code></em>\nend module-set\n</pre>\n</div><p>\n</p>\n<p>The module-set's <code class=\"literal\">use-modules</code> option created two modules\ninternally, with <span class=\"application\">kdesrc-build</span> behaving as if it had read:</p>\n<pre class=\"programlisting\">\nmodule module1\n    repository kde:<em class=\"replaceable\"><code>module1.git</code></em>\nend module\n\nmodule module2\n    repository kde:<em class=\"replaceable\"><code>module2.git</code></em>\nend module\n</pre>\n<p>The <code class=\"literal\">kde:</code> <span class=\"application\">Git</span> repository prefix used above is a\nshortcut which will be setup by <span class=\"application\">kdesrc-build</span> automatically. See the TechBase\n<a class=\"ulink\" href=\"https://techbase.kde.org/Development/Git/Configuration#URL_Renaming\" target=\"_top\">URL\nRenaming</a> article for more information. Note that unlike most other\noptions, this option can be specified multiple times in order to create as\nmany aliases as necessary.</p>\n<div class=\"tip\" style=\"margin-left: 0.5in; margin-right: 0.5in;\"><h3 class=\"title\">Tip</h3><p>It is not required to use this option to take advantage of module-set,\nthis option exists to make it easy to use the same repository across many\ndifferent module sets.</p></div>"
+  },
+  {
+    "name": "git-user",
+    "anchor": "conf-git-user",
+    "region": 0,
+    "notes": "<p>This option is intended for <span class=\"orgname\">KDE</span> developers. If set, it will be used to\nautomatically setup identity information for the <span class=\"application\">Git</span> source control software\nfor <span class=\"emphasis\"><em>newly downloaded</em></span> <span class=\"application\">Git</span> modules (including the vast\nmajority of <span class=\"orgname\">KDE</span> modules).</p>\n<p>Specifically, the user's name and email fields for each new <span class=\"application\">Git</span> repository are filled\nin to the values set by this option.</p>\n<p>The value must be specified in the form <code class=\"option\"><em class=\"replaceable\"><code>User\nName</code></em> &lt;<em class=\"replaceable\"><code>email@example.com</code></em>&gt;</code>.</p>\n<p>\n</p><div class=\"informalexample\">\n<p>For instance, a developer named <span class=\"quote\">\u201c<span class=\"quote\">Foo Barbaz</span>\u201d</span> with the\nemail address <span class=\"quote\">\u201c<span class=\"quote\">foo@abc.xyz</span>\u201d</span> would use:</p>\n<pre class=\"screen\">\n    <span class=\"symbol\">git-user</span> <em class=\"replaceable\"><code>Foo Barbaz</code></em> &lt;<em class=\"replaceable\"><code>foo@abc.xyz</code></em>&gt;\n</pre>\n</div><p>\n</p>\n<p>This option was introduced in <span class=\"application\">kdesrc-build</span> 15.09.\n</p>"
+  },
+  {
+    "name": "http-proxy",
+    "anchor": "conf-http-proxy",
+    "region": 0,
+    "notes": "<p>This option, if set, uses the specified URL as a proxy server to use for\nany HTTP network communications (for example, when downloading snapshots for\nnew modules, or the <a class=\"link\" href=\"https://docs.kde.org/trunk5/en/kdesrc-build/kdesrc-build/kde-modules-and-selection.html#kde-projects-module-sets\" title=\"The official KDE module database\">KDE project\ndatabase</a>).</p>\n<p>In addition, <span class=\"application\">kdesrc-build</span> will try to ensure that the tools it depends\non also use that proxy server, if possible, by setting the\n<code class=\"envar\">http_proxy</code> environment variable to the indicated server,\n<span class=\"emphasis\"><em>if that environment variable is not already set</em></span>.</p>\n<p>This option was introduced with <span class=\"application\">kdesrc-build</span> 1.16.</p>"
+  },
+  {
+    "name": "ignore-kde-structure",
+    "anchor": "conf-ignore-kde-structure",
+    "region": 0,
+    "notes": "<p>This option is deprecated and will be removed (again) in a future release.</p>\n<p>Please use <code class=\"option\"><a class=\"link\" href=\"https://docs.kde.org/trunk5/en/kdesrc-build/kdesrc-build/conf-options-table.html#conf-directory-layout\">directory-layout</a></code>\ninstead, which offers more options.</p>"
+  },
+  {
+    "name": "directory-layout",
+    "anchor": "conf-directory-layout",
+    "region": 0,
+    "notes": "<p>This option is used to configure the layout which <span class=\"application\">kdesrc-build</span> should use when\ncreating source and build directories.</p>\n<p>Currently, there are three possible values: <strong class=\"userinput\"><code>flat</code></strong>,\n<strong class=\"userinput\"><code>invent</code></strong>, and <strong class=\"userinput\"><code>metadata</code></strong>.</p>\n<p>The <strong class=\"userinput\"><code>flat</code></strong> layout is the default value, and will group all modules\ndirectly underneath the top level source and build directories. For example,\n<code class=\"literal\">source/extragear/network/telepathy/ktp-text-ui</code> in the <strong class=\"userinput\"><code>metadata</code></strong>\nlayout would be <code class=\"literal\">source/ktp-text-ui</code> using the <strong class=\"userinput\"><code>flat</code></strong> layout\ninstead.\n</p>\n<p>The <strong class=\"userinput\"><code>invent</code></strong> layout creates a directory hierarchy mirroring the relative\npaths of repositories on <a class=\"ulink\" href=\"https://invent.kde.org/\" target=\"_top\">invent.kde.org</a>. For example\n<code class=\"literal\">source/kde/applications/kate</code> in the <strong class=\"userinput\"><code>metadata</code></strong> layout would\nbe <code class=\"literal\">source/utilities/kate</code> using the <strong class=\"userinput\"><code>invent</code></strong> layout instead.\nThis layout only affects KDE projects. It is a good choice for people starting out with\n<span class=\"application\">kdesrc-build</span>.\n</p>\n<p>Finally, the <strong class=\"userinput\"><code>metadata</code></strong> layout is the same as the old default\nbehaviour. This layout organises KDE projects according to the project paths specified in the\nproject metadata for these modules. This is a good choice if you want a directory layout which\ntracks with certain KDE processes, but note that this path is therefore not always stable. As a\nresult, <span class=\"application\">kdesrc-build</span> may abandon an old copy of the repository and clone a new one for a project\ndue to changes in the project metadata.</p>"
+  },
+  {
+    "name": "ignore-modules",
+    "anchor": "conf-ignore-modules",
+    "region": 3,
+    "notes": "<p>Modules named by this option, which would be chosen by <span class=\"application\">kdesrc-build</span>\ndue to a <a class=\"link\" href=\"https://docs.kde.org/trunk5/en/kdesrc-build/kdesrc-build/conf-options-table.html#conf-use-modules\">use-modules</a> option, are\ninstead skipped entirely. Use this option when you want to build an entire\n<a class=\"link\" href=\"https://docs.kde.org/trunk5/en/kdesrc-build/kdesrc-build/kde-modules-and-selection.html#kde-projects-module-sets\" title=\"The official KDE module database\">kde-projects</a> project grouping\n<span class=\"emphasis\"><em>except for</em></span> some specific modules.</p>\n<p>The option value does not necessarily have to name the module directly.\nAny module that has full consecutive parts of its <a class=\"link\" href=\"https://docs.kde.org/trunk5/en/kdesrc-build/kdesrc-build/kde-modules-and-selection.html#kde-projects-module-sets\" title=\"The official KDE module database\"><span class=\"orgname\">KDE</span> projects module path</a> match one\nof the option values will be ignored, so you can ignore multiple modules this\nway.</p>\n<p>For example, an option value of <em class=\"replaceable\"><code>libs</code></em> would\nresult in both <span class=\"symbol\">kde/kdegraphics/libs</span> and\n<span class=\"symbol\">playground/libs</span> being excluded (though not\n<span class=\"symbol\">kde/kdelibs</span> since the full part <span class=\"quote\">\u201c<span class=\"quote\">kdelibs</span>\u201d</span> is what\nis compared).</p>\n<div class=\"tip\" style=\"margin-left: 0.5in; margin-right: 0.5in;\"><h3 class=\"title\">Tip</h3><p>See also <a class=\"xref\" href=\"https://docs.kde.org/trunk5/en/kdesrc-build/kdesrc-build/kde-modules-and-selection.html#example-ignoring-a-module\" title=\"Example\u00a02.7.\u00a0Example for ignoring a kde-project module in a group\">Example\u00a02.7, \u201cExample for ignoring a kde-project module in a group\u201d</a>.</p></div>\n<p>This option was introduced with <span class=\"application\">kdesrc-build</span> 1.16.</p>"
+  },
+  {
+    "name": "include-dependencies",
+    "anchor": "conf-include-dependencies",
+    "region": 0,
+    "notes": "<p>This option, when set to <strong class=\"userinput\"><code>true</code></strong> requests that\n<span class=\"application\">kdesrc-build</span> also include known dependencies of this module in its build,\nwithout requiring you to mention those dependencies (even indirectly).</p>\n<div class=\"note\" style=\"margin-left: 0.5in; margin-right: 0.5in;\"><h3 class=\"title\">Note</h3><p>This option only works for <a class=\"link\" href=\"https://docs.kde.org/trunk5/en/kdesrc-build/kdesrc-build/kde-modules-and-selection.html#kde-projects-module-sets\" title=\"The official KDE module database\"><code class=\"literal\">kde-project</code>-based\nmodules</a>, and requires that the metadata maintained by the <span class=\"orgname\">KDE</span>\ndevelopers is accurate for your selected <a class=\"link\" href=\"https://docs.kde.org/trunk5/en/kdesrc-build/kdesrc-build/conf-options-table.html#conf-branch-group\">branch-group</a>.</p></div>\n<p>This option is enabled by default, to support building applications\nthat need versions of <span class=\"trademark\">Qt</span>\u2122 or <span class=\"productname\">Plasma</span> more recent than supported on\ncommon operating systems.</p>"
+  },
+  {
+    "name": "install-after-build",
+    "anchor": "conf-install-after-build",
+    "region": 0,
+    "notes": "This option is used to install the package after it successfully builds.\nThis option is enabled by default. If you want to disable this, you need to set\nthis option to <strong class=\"userinput\"><code>false</code></strong> in the <a class=\"link\" href=\"https://docs.kde.org/trunk5/en/kdesrc-build/kdesrc-build/configure-data.html\" title=\"Setting the Configuration Data\">configuration file</a>. You can also use the <a class=\"link\" href=\"https://docs.kde.org/trunk5/en/kdesrc-build/kdesrc-build/supported-cmdline-params.html#cmdline-no-install\"><code class=\"option\">--no-install</code></a> command line\nflag."
+  },
+  {
+    "name": "install-environment-driver",
+    "anchor": "conf-install-environment-driver",
+    "region": 1,
+    "notes": "<p>By default, <span class=\"application\">kdesrc-build</span> will install a shell script that can be\nsourced in a user's profile setup scripts to easily establish needed environment\nvariables to run the Plasma desktop built by <span class=\"application\">kdesrc-build</span>.</p>\n<p>This driver will alter the following files:</p>\n<div class=\"itemizedlist\"><ul class=\"itemizedlist\" style=\"list-style-type: disc; \"><li class=\"listitem\"><p><code class=\"filename\">$XDG_CONFIG_HOME/kde-env-master.sh</code> (normally found at <code class=\"filename\">~/.config/kde-env-master.sh</code>).</p></li><li class=\"listitem\"><p><code class=\"filename\">$XDG_CONFIG_HOME/kde-env-user.sh</code> (normally found at <code class=\"filename\">~/.config/kde-env-user.sh</code>).</p></li></ul></div>\n<p>The <code class=\"filename\">kde-env-user.sh</code> is optional.  It is\nintended for user customizations (see the <a class=\"ulink\" href=\"https://userbase.kde.org/KDE_System_Administration/Environment_Variables#Troubleshooting_and_Debugging\" target=\"_top\">Troubleshooting and Debugging</a>\nsection of the <span class=\"orgname\">KDE</span> UserBase for examples of customizable settings), but these settings\ncan be set elsewhere by the user in their existing profile setup scripts.</p>\n<p>You can disable this feature by setting this option to\n<em class=\"replaceable\"><code>false</code></em>, and ensuring that the <a class=\"link\" href=\"https://docs.kde.org/trunk5/en/kdesrc-build/kdesrc-build/conf-options-table.html#conf-install-session-driver\">install-session-driver</a> option is\nalso disabled.</p>\n<p>This option was introduced with <span class=\"application\">kdesrc-build</span> 17.08.</p>\n<div class=\"tip\" style=\"margin-left: 0.5in; margin-right: 0.5in;\"><h3 class=\"title\">Tip</h3><p><span class=\"application\">kdesrc-build</span> will not overwrite your existing files (if present)\nunless you also pass the <code class=\"option\"><a class=\"link\" href=\"https://docs.kde.org/trunk5/en/kdesrc-build/kdesrc-build/supported-cmdline-params.html#cmdline-delete-my-settings\">--delete-my-settings</a></code>\ncommand-line option.</p></div>"
+  },
+  {
+    "name": "install-session-driver",
+    "anchor": "conf-install-session-driver",
+    "region": 1,
+    "notes": "<p>If enabled, <span class=\"application\">kdesrc-build</span> will try to install a driver for the graphical\nlogin manager that allows you to login to your <span class=\"application\">kdesrc-build</span>-built <span class=\"orgname\">KDE</span> desktop.</p>\n<p>This driver will alter the following files:</p>\n<div class=\"itemizedlist\"><ul class=\"itemizedlist\" style=\"list-style-type: disc; \"><li class=\"listitem\"><p><code class=\"filename\">~/.xsession</code></p></li><li class=\"listitem\"><p><code class=\"filename\">$XDG_CONFIG_HOME/kde-env-master.sh</code> (normally found at <code class=\"filename\">~/.config/kde-env-master.sh</code>).</p></li><li class=\"listitem\"><p><code class=\"filename\">$XDG_CONFIG_HOME/kde-env-user.sh</code> (normally found at <code class=\"filename\">~/.config/kde-env-user.sh</code>).</p></li></ul></div>\n<p>If you maintain your own login driver then you can disable this feature by setting this\noption to <em class=\"replaceable\"><code>false</code></em>.  If enabled, this feature also enables the\n<a class=\"link\" href=\"https://docs.kde.org/trunk5/en/kdesrc-build/kdesrc-build/conf-options-table.html#conf-install-environment-driver\">install-environment-driver</a> feature.</p>\n<p>This option was introduced with <span class=\"application\">kdesrc-build</span> 1.16.</p>\n<div class=\"tip\" style=\"margin-left: 0.5in; margin-right: 0.5in;\"><h3 class=\"title\">Tip</h3><p><span class=\"application\">kdesrc-build</span> will not overwrite your existing files (if present)\nunless you also pass the <code class=\"option\"><a class=\"link\" href=\"https://docs.kde.org/trunk5/en/kdesrc-build/kdesrc-build/supported-cmdline-params.html#cmdline-delete-my-settings\">--delete-my-settings</a></code>\ncommand-line option.</p></div>"
+  },
+  {
+    "name": "kdedir",
+    "anchor": "conf-kdedir",
+    "region": 0,
+    "notes": "This option sets the directory that <span class=\"orgname\">KDE</span> will be installed to after it\nis built. It defaults to <code class=\"filename\">~/kde</code>. If you\nchange this to a directory needing root access, you may want to read about the\n<a class=\"link\" href=\"https://docs.kde.org/trunk5/en/kdesrc-build/kdesrc-build/conf-options-table.html#conf-make-install-prefix\">make-install-prefix</a> option as\nwell."
+  },
+  {
+    "name": "kde-languages",
+    "anchor": "conf-kde-languages",
+    "region": 1,
+    "notes": "<p>This option allows you to choose to download and install\nlocalization packages along with <span class=\"orgname\">KDE</span>. You might do this if you do not live in\nthe United States and would like to use <span class=\"orgname\">KDE</span> translated into your native\nlanguage.</p>\n<p>To use this option, set it to a space-separated list of languages to\ninstall. Each language has a language code associated with it, which you\ncan look up at this page: <a class=\"ulink\" href=\"http://l10n.kde.org/teams-list.php\" target=\"_top\">http://l10n.kde.org/teams-list.php</a>.\n</p>\n<p>It is alright to choose only one language. By default, none are\ndownloaded, which means <span class=\"orgname\">KDE</span> will display in American English.</p>\n<p>For instance, to choose to install French, you would set the option to\nsomething like: <strong class=\"userinput\"><code><code class=\"option\">kde-languages</code>\n<em class=\"replaceable\"><code>fr</code></em></code></strong>.  You would still need to use\n<span class=\"application\">System Settings</span> in order to choose the French language, however.</p>"
+  },
+  {
+    "name": "libpath",
+    "anchor": "conf-libpath",
+    "region": 0,
+    "notes": "Set this option to set the environment variable\n<code class=\"envar\">LD_LIBRARY_PATH</code> while building. You cannot override this setting\nin a module option. The default value is blank, but the paths <code class=\"filename\">$<code class=\"envar\">KDEDIR</code>/lib</code> and <code class=\"filename\">$<code class=\"envar\">QTDIR</code>/lib</code> are automatically added.\nYou may use the tilde (~) for any paths you add using this option."
+  },
+  {
+    "name": "log-dir",
+    "anchor": "conf-log-dir",
+    "region": 0,
+    "notes": "Use this option to change the directory used to hold the log files\ngenerated by the script."
+  },
+  {
+    "name": "make-install-prefix",
+    "anchor": "conf-make-install-prefix",
+    "region": 0,
+    "notes": "Set this variable to a space-separated list, which is interpreted as a\ncommand and its options to precede the <strong class=\"userinput\"><code><span class=\"command\"><strong>make</strong></span> <code class=\"option\">install</code></code></strong> command used to install\nmodules. This is useful for installing packages with <span class=\"application\">Sudo</span> for example, but\nplease be careful while dealing with root privileges."
+  },
+  {
+    "name": "make-options",
+    "anchor": "conf-make-options",
+    "region": 0,
+    "notes": "<p>Set this variable in order to pass command line options to the\n<span class=\"command\"><strong>make</strong></span> command. This is useful for programs such as <a class=\"ulink\" href=\"https://github.com/distcc/distcc\" target=\"_top\"><span class=\"application\">distcc</span></a> or\nsystems with more than one processor core.</p>\n<p>Note that not all supported build systems use <span class=\"command\"><strong>make</strong></span>. For\nbuild systems that use <span class=\"command\"><strong>ninja</strong></span> for build (such as the\n<a class=\"link\" href=\"https://docs.kde.org/trunk5/en/kdesrc-build/kdesrc-build/conf-options-table.html#conf-override-build-system\"><span class=\"application\">Meson</span>\nbuild system</a>), see the <a class=\"link\" href=\"https://docs.kde.org/trunk5/en/kdesrc-build/kdesrc-build/conf-options-table.html#conf-ninja-options\">ninja-options</a>\nsetting.</p>"
+  },
+  {
+    "name": "manual-build",
+    "anchor": "conf-manual-build",
+    "region": 0,
+    "notes": "Set the option value to <strong class=\"userinput\"><code>true</code></strong> to keep the\nbuild process from attempting to build this module. It will still be kept\nup-to-date when updating from <span class=\"application\">Subversion</span>.  This option is exactly equivalent\nto the <a class=\"link\" href=\"https://docs.kde.org/trunk5/en/kdesrc-build/kdesrc-build/supported-cmdline-params.html#cmdline-no-build\"><code class=\"option\">--no-build</code></a>\ncommand line option."
+  },
+  {
+    "name": "manual-update",
+    "anchor": "conf-manual-update",
+    "region": 0,
+    "notes": "Set the option value to <strong class=\"userinput\"><code>true</code></strong> to keep the\nbuild process from attempting to update (and by extension, build or install)\nthis module. If you set this option for a module, then you have essentially\ncommented it out."
+  },
+  {
+    "name": "module-base-path",
+    "anchor": "conf-module-base-path",
+    "region": 0,
+    "notes": "<p>Set this option to override <span class=\"application\">kdesrc-build</span>'s default directory path to the\nmodule in question. This can be used, for example, to pull specific branches\nor tagged versions of libraries. <a class=\"ulink\" href=\"https://websvn.kde.org/\" target=\"_top\">The <span class=\"orgname\">KDE</span>\nSource Viewer</a> is invaluable in helping to pick the right path.</p>\n<p>Note that <span class=\"application\">kdesrc-build</span> constructs the final path according to the\nfollowing template:\n<code class=\"filename\"><code class=\"varname\">$svn-server</code>/home/kde/<code class=\"varname\">$module-base-path</code></code>.\n</p>\n<p>The default value is either <code class=\"filename\">trunk/<code class=\"varname\">$module</code></code> or <code class=\"filename\">trunk/KDE/<code class=\"varname\">$module</code></code>, depending on\nthe module name.</p>\n<div class=\"tip\" style=\"margin-left: 0.5in; margin-right: 0.5in;\"><h3 class=\"title\">Tip</h3><p>Use the <a class=\"link\" href=\"https://docs.kde.org/trunk5/en/kdesrc-build/kdesrc-build/conf-options-table.html#conf-branch\">branch</a> or <a class=\"link\" href=\"https://docs.kde.org/trunk5/en/kdesrc-build/kdesrc-build/conf-options-table.html#conf-tag\">tag</a> options instead whenever they are applicable.\n</p></div>"
+  },
+  {
+    "name": "niceness",
+    "anchor": "conf-niceness",
+    "region": 1,
+    "notes": "Set this option to a number between 20 and 0. The higher the number, the\nlower a priority <span class=\"application\">kdesrc-build</span> will set for itself, i.e. the higher the\nnumber, the \"nicer\" the program is. The default is 10."
+  },
+  {
+    "name": "ninja-options",
+    "anchor": "conf-ninja-options",
+    "region": 0,
+    "notes": "<p>Set this variable in order to pass command line options to the\n\n<span class=\"command\"><strong>ninja</strong></span> build command. This can be useful to enable <span class=\"quote\">\u201c<span class=\"quote\">verbose</span>\u201d</span> output\nor to manually reduce the number of parallel build jobs that <span class=\"command\"><strong>ninja</strong></span> would\nuse.</p>\n<div class=\"note\" style=\"margin-left: 0.5in; margin-right: 0.5in;\"><h3 class=\"title\">Note</h3><p>Note that this setting only controls ninja when used by <span class=\"application\">kdesrc-build</span>.\nThe <span class=\"trademark\">Qt</span>\u2122 <span class=\"quote\">\u201c<span class=\"quote\">webengine</span>\u201d</span> module uses <span class=\"command\"><strong>ninja</strong></span> indirectly, but\nonly officially supports being built by <span class=\"command\"><strong>make</strong></span>.\nIn this situation, you can set <code class=\"literal\">NINJAFLAGS</code> as a way to have\n<span class=\"command\"><strong>make</strong></span> pass the appropriate flags when it later calls\n<span class=\"command\"><strong>ninja</strong></span>, by using\n<a class=\"link\" href=\"https://docs.kde.org/trunk5/en/kdesrc-build/kdesrc-build/conf-options-table.html#conf-make-options\">make-options</a>.</p>\n<div class=\"informalexample\">\n<pre class=\"programlisting\">\noptions <em class=\"replaceable\"><code>qtwebengine</code></em>\n    # Restrict make and ninja to using no more than 6 separate compile jobs even\n    # when more CPU is available, to avoid running out of memory\n    <code class=\"option\"><a class=\"link\" href=\"https://docs.kde.org/trunk5/en/kdesrc-build/kdesrc-build/conf-options-table.html#conf-make-options\">make-options</a></code> -j<em class=\"replaceable\"><code>6</code></em> NINJAFLAGS=-j<em class=\"replaceable\"><code>6</code></em>\nend options\n</pre>\n</div>\n</div>"
+  },
+  {
+    "name": "no-svn",
+    "anchor": "conf-no-svn",
+    "region": 0,
+    "notes": "If this option is set to true then <span class=\"application\">kdesrc-build</span> will not update the\nsource code for the module automatically.  It will still try to build the\nmodule if it normally would have tried anyways."
+  },
+  {
+    "name": "num-cores",
+    "anchor": "conf-num-cores",
+    "region": 1,
+    "notes": "<p>This option is defined by <span class=\"application\">kdesrc-build</span> (when using the kdesrc-build-setup tool\nor <span class=\"command\"><strong>kdesrc-build --initial-setup</strong></span>), set to be the number of\navailable CPUs (as indicated by the external application\n<span class=\"application\">nproc</span>). If <span class=\"application\">kdesrc-build</span> cannot detect the\nnumber of CPUs, this value is set to 4.</p>\n<p>See <a class=\"xref\" href=\"https://docs.kde.org/trunk5/en/kdesrc-build/kdesrc-build/configure-data.html#make-options-example\" title=\"Example\u00a02.1.\u00a0Configuring Make to use all available CPUs, with exceptions\">Example\u00a02.1, \u201cConfiguring Make to use all available CPUs, with exceptions\u201d</a> for an example of this\noption's usage. This option was added in version 20.07.</p>"
+  },
+  {
+    "name": "num-cores-low-mem",
+    "anchor": "conf-num-cores-low-mem",
+    "region": 1,
+    "notes": "<p>This option is defined by <span class=\"application\">kdesrc-build</span> (when using the kdesrc-build-setup tool\nor <span class=\"command\"><strong>kdesrc-build --initial-setup</strong></span>), set to be the number of\nCPUs that is deemed safe for heavyweight or other highly-intensive modules,\nsuch as <code class=\"literal\">qtwebengine</code>, to avoid running out of memory\nduring the build.</p>\n<p>The typical calculation is one CPU core for every 2\ngigabytes (GiB) of total memory. At least 1 core will be specified,\nand no more than <code class=\"option\"><a class=\"link\" href=\"https://docs.kde.org/trunk5/en/kdesrc-build/kdesrc-build/conf-options-table.html#conf-num-cores\">num-cores</a></code>\ncores will be specified.</p>\n<p>Although this option is intended to support <span class=\"trademark\">Qt</span>\u2122 modules, you can use it for your\nany module in the same way that <code class=\"option\">num-cores</code> is used.</p>\n<p>If <span class=\"application\">kdesrc-build</span> cannot detect available memory then this value will be\nset to 2.</p>\n<p>This option was added in version 20.07.</p>"
+  },
+  {
+    "name": "override-build-system",
+    "anchor": "conf-override-build-system",
+    "region": 0,
+    "notes": "<p>This is an advanced option, added in <span class=\"application\">kdesrc-build</span> 1.16.</p>\n<p>Normally <span class=\"application\">kdesrc-build</span> will detect the appropriate build system to use\nfor a module after it is downloaded. This is done by checking for the existence\nof specific files in the module's source directory.</p>\n<p>Some modules may include more than one required set of files, which could confuse\nthe auto-detection. In this case you can manually specify the correct build type.</p>\n<p>Currently supported build types that can be set are:</p>\n<div class=\"variablelist\"><dl class=\"variablelist\"><dt><span class=\"term\">KDE</span></dt><dd><p>Used to build <span class=\"orgname\">KDE</span> modules. In reality it can be used to build\n            almost any module that uses <span class=\"application\">CMake</span> but it is best not to rely on this.</p></dd><dt><span class=\"term\">Qt</span></dt><dd><p>Used to build the <span class=\"trademark\">Qt</span>\u2122 library itself.</p></dd><dt><span class=\"term\">qmake</span></dt><dd><p>Used to build <span class=\"trademark\">Qt</span>\u2122 modules that use\n            <span class=\"application\">qmake</span>-style <code class=\"literal\">.pro</code>\n            files.</p></dd><dt><span class=\"term\">generic</span></dt><dd><p>Used to build modules that use plain Makefiles and that do not\n            require any special configuration.</p></dd><dt><span class=\"term\">autotools</span></dt><dd><p>This is the standard configuration tool used for most Free and\n            open-source software not in any of the other categories.</p></dd><dt><span class=\"term\">meson</span></dt><dd><p>This is a <a class=\"ulink\" href=\"https://mesonbuild.com\" target=\"_top\">relatively new\n            tool</a> gaining popularity as a replacement for the autotools and may\n            be required for some non-<span class=\"orgname\">KDE</span> modules.</p></dd></dl></div>"
+  },
+  {
+    "name": "override-url",
+    "anchor": "conf-override-url",
+    "region": 0,
+    "notes": "If you set this option, <span class=\"application\">kdesrc-build</span> will use its value as the <acronym class=\"acronym\">URL</acronym>\nto pass to <span class=\"application\">Subversion</span> <span class=\"emphasis\"><em>completely unchanged</em></span>. You should\ngenerally use this if you want to download a specific release but <span class=\"application\">kdesrc-build</span>\ncannot figure out what you mean using <a class=\"link\" href=\"https://docs.kde.org/trunk5/en/kdesrc-build/kdesrc-build/conf-options-table.html#conf-branch\">branch</a>."
+  },
+  {
+    "name": "persistent-data-file",
+    "anchor": "conf-persistent-data-file",
+    "region": 1,
+    "notes": "<p>Use this option to change where <span class=\"application\">kdesrc-build</span> stores its\npersistent data. The default is to store this data in a file called\n<code class=\"filename\">.kdesrc-build-data</code>, placed in the same directory as the\nconfiguration file in use. If the global configuration file is in use, it will\nbe saved to <code class=\"filename\">~/.local/state/kdesrc-build-data</code>\n(<code class=\"filename\">$XDG_STATE_HOME/kdesrc-build-data</code>, if\n<code class=\"envar\">$XDG_STATE_HOME</code> is set). If you have multiple available\nconfigurations in the same directory, you may want to manually set this option,\nso that different configurations do not end up with conflicting persistent data.\n</p>\n<p>This option was added with <span class=\"application\">kdesrc-build</span> 1.15.</p>"
+  },
+  {
+    "name": "prefix",
+    "anchor": "conf-prefix",
+    "region": 0,
+    "notes": "<p>This option controls where to install the module (normally the\n<code class=\"option\"><a class=\"link\" href=\"https://docs.kde.org/trunk5/en/kdesrc-build/kdesrc-build/conf-options-table.html#conf-kdedir\">kdedir</a></code> setting is used).\nUsing this option allows you to install a module to a different directory than\nwhere the KDE Platform libraries are installed, such as if you were using\n<span class=\"application\">kdesrc-build</span> only to build applications.</p>\n<p>You can use <code class=\"varname\">${MODULE}</code> or <code class=\"varname\">$MODULE</code>\nin the path to have them expanded to the module's name.</p>"
+  },
+  {
+    "name": "purge-old-logs",
+    "anchor": "conf-purge-old-logs",
+    "region": 0,
+    "notes": "<p>This option controls whether old log directories are automatically\ndeleted or not. The default value is <em class=\"replaceable\"><code>true</code></em>.</p>"
+  },
+  {
+    "name": "qmake-options",
+    "anchor": "conf-qmake-options",
+    "region": 0,
+    "notes": "<p>Any options specified here are passed to the\n<span class=\"command\"><strong>qmake</strong></span> command, for modules that use the\n<span class=\"symbol\">qmake</span> build system. For instance, you can use the\n<strong class=\"userinput\"><code>PREFIX=/path/to/qt</code></strong> option to qmake to override where it\ninstalls the module.\n</p>\n<p>This option was added to <span class=\"application\">kdesrc-build</span> 1.16.</p>"
+  },
+  {
+    "name": "qtdir",
+    "anchor": "conf-qtdir",
+    "region": 0,
+    "notes": "Set this option to set the environment variable <code class=\"envar\">QTDIR</code> while building.\nIf you do not specify this option, <span class=\"application\">kdesrc-build</span> will assume that <span class=\"trademark\">Qt</span>\u2122 is\nprovided by the operating system."
+  },
+  {
+    "name": "remove-after-install",
+    "anchor": "conf-remove-after-install",
+    "region": 0,
+    "notes": "<p>If you are low on hard disk space, you may want to use this option\nin order to automatically delete the build directory (or both the source and\nbuild directories for one-time installs) after the module is successfully\ninstalled.\n</p>\n<p>Possible values for this option are:\n</p><div class=\"itemizedlist\"><ul class=\"itemizedlist\" style=\"list-style-type: disc; \"><li class=\"listitem\"><p>none - Do not delete anything (This is the default).</p></li><li class=\"listitem\"><p>builddir - Delete the build directory, but not the source.</p></li><li class=\"listitem\"><p>all - Delete both the source code and build directory.</p></li></ul></div><p>\n</p>\n<p>Note that using this option can have a significant detrimental impact on\nboth your bandwidth usage (if you use <em class=\"replaceable\"><code>all</code></em>) and the time taken to compile <span class=\"orgname\">KDE</span> software,\nsince <span class=\"application\">kdesrc-build</span> will be unable to perform incremental builds.</p>"
+  },
+  {
+    "name": "repository",
+    "anchor": "conf-repository",
+    "region": 0,
+    "notes": "<p>This option was introduced with version 1.10, and is used to\nspecify the <span class=\"application\">Git</span> repository to download the source code for the module.\n<span class=\"trademark\">Qt</span>\u2122 (and therefore qt) would need this option, as well as various\n<span class=\"orgname\">KDE</span> modules that are in the process of conversion to use <span class=\"application\">Git</span>.</p>"
+  },
+  {
+    "name": "revision",
+    "anchor": "conf-revision",
+    "region": 0,
+    "notes": "<p>If this option is set to a value other than 0 (zero), <span class=\"application\">kdesrc-build</span>\nwill force the source update to bring the module to the exact revision\ngiven, even if options like <a class=\"link\" href=\"https://docs.kde.org/trunk5/en/kdesrc-build/kdesrc-build/conf-options-table.html#conf-branch\">branch</a> are in\neffect. If the module is already at the given revision then it will not be\nupdated further unless this option is changed or removed from the\nconfiguration.</p>\n<div class=\"note\" style=\"margin-left: 0.5in; margin-right: 0.5in;\"><h3 class=\"title\">Note</h3><p>This option did not work for git-based modules (including <a class=\"link\" href=\"https://docs.kde.org/trunk5/en/kdesrc-build/kdesrc-build/kde-modules-and-selection.html#kde-projects-module-sets\" title=\"The official KDE module database\">kde-projects</a> modules) until\n<span class=\"application\">kdesrc-build</span> version 1.16.</p></div>"
+  },
+  {
+    "name": "run-tests",
+    "anchor": "conf-run-tests",
+    "region": 0,
+    "notes": "If set to <strong class=\"userinput\"><code>true</code></strong>, then the module will be\nbuilt with support for running its test suite, and the test suite will be\nexecuted as part of the build process. <span class=\"application\">kdesrc-build</span> will show a simple\nreport of the test results. This is useful for developers or those who want\nto ensure their system is setup correctly."
+  },
+  {
+    "name": "set-env",
+    "anchor": "conf-set-env",
+    "region": 0,
+    "notes": "<p>This option accepts a space-separated set of values, where the first value\nis the environment variable to set, and the rest of the values is what you\nwant the variable set to. For example, to set the variable <code class=\"envar\">RONALD</code> to\nMcDonald, you would put in the appropriate section this command:</p>\n<pre class=\"screen\"><span class=\"command\"><strong>set-env</strong></span> <code class=\"envar\">RONALD</code> <strong class=\"userinput\"><code>McDonald</code></strong></pre>\n<p>This option is special in that it can be repeated without overriding\nearlier set-env settings in the same section of the <a class=\"link\" href=\"https://docs.kde.org/trunk5/en/kdesrc-build/kdesrc-build/configure-data.html\" title=\"Setting the Configuration Data\">configuration file</a>. This\nway you can set more than one environment variable per module (or\nglobally).</p>"
+  },
+  {
+    "name": "source-dir",
+    "anchor": "conf-source-dir",
+    "region": 0,
+    "notes": "This option is used to set the directory on your computer to store the <span class=\"orgname\">KDE</span>\n<span class=\"application\">Subversion</span> sources at. If you do not specify this value, the default is\n<code class=\"filename\">~/kdesrc</code>. You may use the tilde (~)\nto represent the home directory if using this option."
+  },
+  {
+    "name": "ssh-identity-file",
+    "anchor": "conf-ssh-identity-file",
+    "region": 1,
+    "notes": "<p>Set this option to control which private SSH key file is passed to the\n<span class=\"command\"><strong>ssh-add</strong></span> command when <span class=\"application\">kdesrc-build</span> is downloading source\ncode from repositories that require authentication. See also: <a class=\"xref\" href=\"https://docs.kde.org/trunk5/en/kdesrc-build/kdesrc-build/developer-features.html#ssh-agent-reminder\" title=\"SSH Agent checks\">the section called \u201c<span class=\"application\">SSH</span> Agent checks\u201d</a>.</p>\n<p>This option was added in version 1.14.2.</p>"
+  },
+  {
+    "name": "stop-on-failure",
+    "anchor": "conf-stop-on-failure",
+    "region": 0,
+    "notes": "Set this option value to <strong class=\"userinput\"><code>true</code></strong> to cause the script to stop execution\nafter an error occurs during the build or install process. This option is off\nby default."
+  },
+  {
+    "name": "svn-server",
+    "anchor": "conf-svn-server",
+    "region": 0,
+    "notes": "<p>This option is used to set the server used to check out from <span class=\"application\">Subversion</span>.\nThe default is the anonymous <span class=\"application\">Subversion</span> repository, <code class=\"filename\">svn://anonsvn.kde.org/</code></p>\n<div class=\"note\" style=\"margin-left: 0.5in; margin-right: 0.5in;\"><h3 class=\"title\">Note</h3><p>If you are developing for KDE, use the <span class=\"application\">Subversion</span> repository that\nwas provided to you when you received your developer account, instead of the\nanonymous repository.</p></div>"
+  },
+  {
+    "name": "tag",
+    "anchor": "conf-tag",
+    "region": 0,
+    "notes": "<p>Use this option to download a specific release of a module.</p>\n<p><span class=\"emphasis\"><em>Note:</em></span> The odds are very good that you <span class=\"emphasis\"><em>do not\nwant</em></span> to use this option. <span class=\"orgname\">KDE</span> releases are available in tarball form\nfrom the <a class=\"ulink\" href=\"https://download.kde.org/\" target=\"_top\"><span class=\"orgname\">KDE</span> download site</a>.</p>\n<div class=\"note\" style=\"margin-left: 0.5in; margin-right: 0.5in;\"><h3 class=\"title\">Note</h3><p>This option has only been supported for git-based modules since\n<span class=\"application\">kdesrc-build</span> 1.16.</p></div>"
+  },
+  {
+    "name": "use-clean-install",
+    "anchor": "conf-use-clean-install",
+    "region": 0,
+    "notes": "<p>Set this option to <strong class=\"userinput\"><code>true</code></strong> in order to\nhave <span class=\"application\">kdesrc-build</span> run <span class=\"command\"><strong>make uninstall</strong></span> directly before\nrunning <span class=\"command\"><strong>make install</strong></span>.</p>\n<p>This can be useful in ensuring that there are not stray old library\nfiles, <span class=\"application\">CMake</span> metadata, etc. that can cause issues in long-lived <span class=\"orgname\">KDE</span>\ninstallations. However this only works on build systems that support\n<span class=\"command\"><strong>make uninstall</strong></span>.</p>\n<p>This option was added with <span class=\"application\">kdesrc-build</span> 1.12, but was not documented\nuntil <span class=\"application\">kdesrc-build</span> 1.16.</p>"
+  },
+  {
+    "name": "use-idle-io-priority",
+    "anchor": "conf-use-idle-io-priority",
+    "region": 1,
+    "notes": "This option, added in <span class=\"application\">kdesrc-build</span> 1.12, will cause a lower priority\nto be used for disk and other I/O usage, which can significantly improve the\nresponsiveness of the rest of the system at the expense of slightly longer\nrunning times for <span class=\"application\">kdesrc-build</span>. The default is to be disabled, to enable\nthe lower disk priority set this to <strong class=\"userinput\"><code>true</code></strong>."
+  },
+  {
+    "name": "use-inactive-modules",
+    "anchor": "conf-use-inactive-modules",
+    "region": 1,
+    "notes": "This option when enabled will allow kdesrc-build to also clone and\npull from repositories marked as inactive. The default is to be disabled,\nto allow inactive modules set this to <strong class=\"userinput\"><code>true</code></strong>."
+  },
+  {
+    "name": "use-modules",
+    "anchor": "conf-use-modules",
+    "region": 2,
+    "notes": "<p>This option, added in <span class=\"application\">kdesrc-build</span> 1.12.1, allows you to easily\nspecify many different modules to build at the same point in <a class=\"link\" href=\"https://docs.kde.org/trunk5/en/kdesrc-build/kdesrc-build/kdesrc-buildrc.html\" title=\"Chapter\u00a04.\u00a0Configuring kdesrc-build\">the configuration file</a>.</p>\n<p>This option <span class=\"emphasis\"><em>must</em></span> be used within a\n<code class=\"literal\">module-set</code>. Every identifier passed to this option is\ninternally converted to a <span class=\"application\">kdesrc-build</span> module, with a <a class=\"link\" href=\"https://docs.kde.org/trunk5/en/kdesrc-build/kdesrc-build/conf-options-table.html#conf-repository\"><code class=\"option\">repository</code></a> option set to the\nmodule-set's repository combined with the identifier name in order to setup the\nfinal repository to download from. All other options that are assigned in the\nmodule-set are also copied to the generated modules unaltered.</p>\n<p>The order that modules are defined in this option is important, because\nthat is also the order that <span class=\"application\">kdesrc-build</span> will process the generated modules\nwhen updating, building, and installing. All modules defined in the given\nmodule-set will be handled before <span class=\"application\">kdesrc-build</span> moves to the next module after\nthe module-set.</p>\n<p>If you need to change the options for a generated module, simply declare\nthe module again after it is defined in the module-set, and set your options\nas needed. Although you will change the options set for the module this way,\nthe module will still be updated and built in the order set by the module-set\n(i.e. you can't reorder the build sequence doing this).</p>\n<div class=\"important\" style=\"margin-left: 0.5in; margin-right: 0.5in;\"><h3 class=\"title\">Important</h3><p>The name to use for the module if you do this is simply the\nname that you passed to <code class=\"option\">use-modules</code>, with the exception that\nany <code class=\"literal\">.git</code> is removed.</p></div>\n<p>See <a class=\"xref\" href=\"https://docs.kde.org/trunk5/en/kdesrc-build/kdesrc-build/kde-modules-and-selection.html#module-sets\" title=\"Module Sets\">the section called \u201cModule Sets\u201d</a> and <a class=\"link\" href=\"https://docs.kde.org/trunk5/en/kdesrc-build/kdesrc-build/conf-options-table.html#conf-git-repository-base\">git-repository-base</a> for a description\nof its use and an example.</p>"
+  },
+  {
+    "name": "use-qt-builddir-hack",
+    "anchor": "conf-use-qt-builddir-hack",
+    "region": 0,
+    "notes": "This option has been removed due to improvements in the <span class=\"trademark\">Qt</span>\u2122 build\nsystem."
+  },
+  {
+    "name": "use-stable-kde",
+    "anchor": "conf-use-stable-kde",
+    "region": 0,
+    "notes": "<p>This option is deprecated and will be removed (again) in a future release.</p>\n<p>Please use the <code class=\"option\"><a class=\"link\" href=\"https://docs.kde.org/trunk5/en/kdesrc-build/kdesrc-build/conf-options-table.html#conf-branch-group\">branch-group</a></code>\ninstead, which offers more selectivity.</p>"
+  }
+]
