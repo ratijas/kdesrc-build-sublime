@@ -124,19 +124,19 @@ global
 end global
 
 module null
-    branch-group kf5-qt5
-#   ^^^^^^^^^^^^ invalid.illegal.global-option.kdesrc-build
-#                ^^^^^^^ meta.block.module.kdesrc-build string.unquoted.kdesrc-build
+    kde-languages en es
+#   ^^^^^^^^^^^^^ invalid.illegal.global-option.kdesrc-build
+#                 ^^^^^ meta.block.module.kdesrc-build string.unquoted.kdesrc-build
 end module
 
 module-set null
-    stop-on-failure true
+    colorful-output true
 #   ^^^^^^^^^^^^^^^ invalid.illegal.global-option.kdesrc-build
 #                   ^^^^ constant.language.boolean.true.kdesrc-build
 end module-set
 
 options null
-    stop-on-failure never!
+    colorful-output never!
 #   ^^^^^^^^^^^^^^^ invalid.illegal.global-option.kdesrc-build
 #                   ^^^^^^ invalid.illegal.expected-boolean.kdesrc-build
 end options
@@ -149,20 +149,20 @@ end module
 
 # comments in various places
 global
-    directory-structure#
+    directory-layout#
 
 # <- - meta.expected.string.kdesrc-build
-    directory-structure #
+    directory-layout #
 
 # <- - meta.expected.string.kdesrc-build
-    directory-structure flat# comment
+    directory-layout flat# comment
 
 # <- - meta.expected.string.kdesrc-build
-    directory-structure# comment
-#                      ^^^^^^^^^^ comment.line.number-sign.kdesrc-build
-    directory-structure flat# comment
-#                       ^^^^ meta.expected.string.kdesrc-build string.unquoted.kdesrc-build
-#                           ^^^^^^^^^^ comment.line.number-sign.kdesrc-build
+    directory-layout# comment
+#                   ^^^^^^^^^^ comment.line.number-sign.kdesrc-build
+    directory-layout flat# comment
+#                    ^^^^ meta.expected.string.kdesrc-build string.unquoted.kdesrc-build
+#                        ^^^^^^^^^^ comment.line.number-sign.kdesrc-build
     stop-on-failure  # comment
 #   ^^^^^^^^^^^^^^^ support.function.kdesrc-build
 #                  ^^ meta.expected.bool.kdesrc-build
