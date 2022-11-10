@@ -1,0 +1,118 @@
+%YAML 1.2
+---
+version: 2
+name: kdesrc-build Output
+hidden: true
+scope: source.build_output.kdesrc-build
+
+variables:
+  # based on Packages/JavaScript/JavaScript.sublime-syntax
+  identifier_part: (?:[-_\p{L}\p{Nl}\p{Mn}\p{Mc}\p{Nd}\p{Pc}])
+  identifier_break: (?!{{identifier_part}})
+  identifier: (?:{{identifier_part}}+{{identifier_break}})
+
+  file: (?:file://(.*)|(.*))
+
+contexts:
+  main:
+    - match: '^Building ({{identifier}}) from ({{identifier}})'
+      captures:
+        1: string.unquoted.build_output.kdesrc-build
+        2: string.unquoted.build_output.kdesrc-build
+
+    - match: 'Fetching remote changes to ({{identifier}})'
+      captures:
+        1: string.unquoted.build_output.kdesrc-build
+
+    - match: 'Merging ({{identifier}}) changes from branch ({{identifier}})'
+      captures:
+        1: string.unquoted.build_output.kdesrc-build
+        2: markup.bold.build_output.kdesrc-build
+
+    - match: 'Source update complete for ({{identifier}}):'
+      captures:
+        1: string.unquoted.build_output.kdesrc-build
+        2: constant.numeric.value.build_output.kdesrc-build
+      push:
+        - match: '$'
+          pop: 1
+        - match: '(\d+) files? affected'
+          captures:
+            1: constant.numeric.value.build_output.kdesrc-build
+        - match: (?:conflicts present|update failed)
+          scope: message.error
+
+    - match: 'Source update complete for ({{identifier}}):'
+      captures:
+        1: string.unquoted.build_output.kdesrc-build
+
+    - match: 'Preparing build system for ({{identifier}})'
+      captures:
+        1: string.unquoted.build_output.kdesrc-build
+
+    - match: 'Removing files in build directory for ({{identifier}})'
+      captures:
+        1: string.unquoted.build_output.kdesrc-build
+
+    - match: 'Running ({{identifier}}) targeting (.*)...'
+      captures:
+        1: string.unquoted.build_output.kdesrc-build
+        2: markup.bold.build_output.kdesrc-build
+
+    - match: '(?:Compiling|Installing)\.\.\.? (?:(succeeded)|(failed))'
+      captures:
+        1: string.unquoted.build_output.kdesrc-build
+        2: message.error
+
+    - match: 'Note: - (\d+) - compile warnings'
+      captures:
+        1: constant.numeric.value.build_output.kdesrc-build
+
+    - match: '<<<  (PACKAGES SUCCESSFULLY BUILT)  >>>'
+      captures:
+        1: string.unquoted.build_output.kdesrc-build
+      push:
+        - match: '^{{identifier}}'
+          scope: string.unquoted.build_output.kdesrc-build
+        - match: '^$'
+          pop: 1
+
+    - match: '<<<  PACKAGES FAILED TO BUILD  >>>'
+      scope: message.error
+      push:
+        - match: '^({{identifier}}) -'
+          captures:
+            1: message.error
+          push: file
+        - match: '^$'
+          pop: 1
+
+    - match: 'Important notification for ({{identifier}})'
+      scope: message.error
+      captures:
+        1: entity.name.constant.build_output.kdesrc-build
+      push:
+        - match: '\s*({{identifier}}) has failed to build (\d+) times.'
+          captures:
+            1: entity.name.constant.build_output.kdesrc-build
+            2: markup.bold.build_output.kdesrc-build
+        - match: '^$'
+          pop: 1
+
+    - match: '^:-\)'
+      scope: string.unquoted.build_output.kdesrc-build
+
+    - match: '^:-\('
+      scope: message.error
+
+    - match: 'Your logs are saved in'
+      push: file
+
+  file:
+    - match: '\s*(?:file://(.*)|(.*))$'
+      captures:
+        1: entity.name.filename
+        2: entity.name.filename
+      pop: 1
+    - match: ''
+      pop: 1

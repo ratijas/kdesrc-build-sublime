@@ -1,0 +1,54 @@
+# SYNTAX TEST "Packages/kdesrc-build/kdesrc-build - output.sublime-syntax"
+
+Fetching remote changes to sysadmin-repo-metadata
+#                          ^^^^^^^^^^^^^^^^^^^^^^ string.unquoted.build_output.kdesrc-build
+Merging sysadmin-repo-metadata changes from branch master
+#       ^^^^^^^^^^^^^^^^^^^^^^ string.unquoted.build_output.kdesrc-build
+Holding performance profile
+
+Building libkscreen from kf5-workspace-modules (1/1)
+#        ^^^^^^^^^^ string.unquoted.build_output.kdesrc-build
+#                        ^^^^^^^^^^^^^^^^^^^^^ string.unquoted.build_output.kdesrc-build
+        Fetching remote changes to libkscreen
+#                                  ^^^^^^^^^^ string.unquoted.build_output.kdesrc-build
+        Merging libkscreen changes from branch master
+#               ^^^^^^^^^^ string.unquoted.build_output.kdesrc-build
+#                                              ^^^^^^ markup.bold.build_output.kdesrc-build
+        Source update complete for libkscreen: 1 file affected.
+#                                  ^^^^^^^^^^ string.unquoted.build_output.kdesrc-build
+#                                              ^ constant.numeric.value.build_output.kdesrc-build
+        Compiling... succeeded (after 0 seconds)
+#                    ^^^^^^^^^ string.unquoted.build_output.kdesrc-build
+        Installing.. succeeded (after 1 second)
+#                    ^^^^^^^^^ string.unquoted.build_output.kdesrc-build
+
+<<<  PACKAGES SUCCESSFULLY BUILT  >>>
+#    ^^^^^^^^^^^^^^^^^^^^^^^^^^^ string.unquoted.build_output.kdesrc-build
+libkscreen
+#^^^^^^^^^ string.unquoted.build_output.kdesrc-build
+
+:-)
+#^^ string.unquoted.build_output.kdesrc-build
+Your logs are saved in file:///home/username/kde/src/log/2022-11-12-03
+#                             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ entity.name.filename
+
+Building kscreen from kf5-workspace-modules (1/1)
+#        ^^^^^^^ string.unquoted.build_output.kdesrc-build
+#                     ^^^^^^^^^^^^^^^^^^^^^ string.unquoted.build_output.kdesrc-build
+        Source update complete for kscreen: Skipped
+#                                  ^^^^^^^ string.unquoted.build_output.kdesrc-build
+        Compiling... failed (after 5 seconds)
+#                    ^^^^^^ message.error
+
+<<<  PACKAGES FAILED TO BUILD  >>>
+# <- message.error
+#^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ message.error
+kscreen - file:///home/ratijas/kde/src/log/2022-11-12-05/kscreen/build.log
+# <- message.error
+#^^^^^^ message.error
+#      ^^^ - message.error
+#                ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ entity.name.filename
+
+:-(
+# <- message.error
+#^^ message.error
