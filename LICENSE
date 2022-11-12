@@ -1,3 +1,17 @@
+Note: The following license applies to all files in the kdesrc-build
+distribution unless otherwise noted in the file.
+
+Known exceptions:
+plugins/conf_options.json
+                   - Licensed per KDE Documentation policy, i.e. under the
+                     GNU FDL v1.2 (or any later version), with no Invariant
+                     Sections, no Front-Cover Texts, and no Back-Cover Texts.
+                     Full text available as doc/COPYING.DOC
+logo.png           - Copied from kdesrc-build. Licensed per GNU GPLv2 or any
+                     later version of this license.
+
+License follows -------------------------------------------------------------
+
 The MIT License (MIT)
 
 Copyright (c) 2022 ivan tkachenko <me@ratijas.tk>
