@@ -45,6 +45,7 @@ jobs:
         with:
           build: ${{ matrix.build }}
           default_packages: ${{ matrix.packages }}
+          package_name: kdesrc-build
         # On the step level, this does not cause the entire job to fail
         # and thus mark PRs as failing when only one of our tests failed.
         # See also https://github.com/github/feedback/discussions/15452.
