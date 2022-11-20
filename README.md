@@ -25,13 +25,16 @@ This package brings support for kdesrc-build into [Sublime Text](https://www.sub
 
     ![Output panel](./doc/output-panel.png)
 
+If you are working with QML, check out [QML plugin for Sublime Text](https://github.com/SublimeText/QML) as well!
+
 ## Installation
 
-The easiest way to install this plugin, is to use the [Package Control](https://packagecontrol.io/) plugin.
+The easiest way is to install it from [Package Control](https://packagecontrol.io/packages/kdesrc-build).
 
+ - Install [Package Control](https://packagecontrol.io/) itself, if you haven't done already
  - Open up the command palette: Ctrl+Shift+P (Linux, Windows) / Cmd+Shift+P (OS X)
- - Search for Package Control: Install Package
- - Search for kdesrc-build
+ - Search for `Package Control: Install Package`
+ - Search for `kdesrc-build`
  - Hit Enter
 
 ### Using Git
