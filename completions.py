@@ -20,8 +20,8 @@ Point = int
 HoverZone = int
 OptionType = Type[Union[bool, int, str, Path]]
 
-KDESRC_BUILD_SYNTAX = "Packages/kdesrc-build/kdesrc-build.sublime-syntax"
-KDESRC_BUILD_DOCS_JSON = "Packages/kdesrc-build/plugins/conf_options.json"
+KDESRC_BUILD_SYNTAX = f"Packages/{__package__}/kdesrc-build.sublime-syntax"
+KDESRC_BUILD_DOCS_JSON = f"Packages/{__package__}/plugins/conf_options.json"
 INCLUDE_KEY = "include"
 
 DOCUMENT_LINK_FLAGS = sublime.HIDE_ON_MINIMAP | sublime.DRAW_NO_FILL | sublime.DRAW_NO_OUTLINE | sublime.DRAW_SOLID_UNDERLINE  # noqa: E501
