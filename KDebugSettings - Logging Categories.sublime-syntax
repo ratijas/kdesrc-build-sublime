@@ -1,0 +1,107 @@
+%YAML 1.2
+---
+version: 2
+name: Logging Categories
+file_extensions:
+  - categories
+scope: source.logging-categories
+contexts:
+  main:
+    - match: '(?=^\S)'
+      push: line
+
+  comment:
+    - match: '#'
+      scope: punctuation.definition.comment.logging-categories
+      push:
+        - meta_scope: comment.line.logging-categories
+        - match: $
+          pop: 1
+
+  eol-pop:
+    - match: (?=\s*$)
+      pop: 1
+
+  else-pop:
+    - match: (?=\S)
+      pop: 1
+
+  line:
+    - include: comment
+    - match: (?=^\S)
+      push:
+        - eol-pop
+        - identifier
+        - severity
+        - category-description
+        - category-name
+
+  category-name:
+    - match: '(?=\S)'
+      set:
+        - meta_scope: meta.namespace.logging-categories
+        - match: '\.'
+          scope: punctuation.accessor.dot.logging-categories
+        - match: '(?!\.)\S'
+          scope: entity.name.logging-categories
+        - match: '(?=\s)'
+          pop: 1
+        - include: else-pop
+        - include: eol-pop
+    - include: else-pop
+    - include: eol-pop
+
+  category-description:
+    - match: (?=\S)
+      push:
+        - match: ' *\b(?=DEFAULT_SEVERITY|IDENTIFIER)\b'
+          pop: 2
+        - match: '[^\n$]'
+          scope: string.unquoted.logging-categories
+        - include: else-pop
+        - include: eol-pop
+    - include: eol-pop
+
+  severity:
+    - match: 'DEFAULT_SEVERITY\b'
+      scope: keyword.other.logging-categories
+      set: severity-in-brackets
+    - include: else-pop
+    - include: eol-pop
+
+  severity-in-brackets:
+    - match: '\['
+      scope: punctuation.section.brackets.begin.logging-categories
+      push:
+        - match: \]
+          scope: punctuation.section.brackets.end.logging-categories
+          pop: 2
+        - match: 'DEBUG|INFO|WARNING|CRITICAL|FATAL'
+          scope: storage.modifier.logging-categories
+        - include: else-pop
+        - include: eol-pop
+    - include: else-pop
+    - include: eol-pop
+
+  identifier:
+    - match: 'IDENTIFIER\b'
+      scope: keyword.other.logging-categories
+      set: identifier-in-brackets
+    - include: else-pop
+    - include: eol-pop
+
+  identifier-in-brackets:
+    - match: '\['
+      scope: punctuation.section.brackets.begin.logging-categories
+      push:
+        - match: \]
+          scope: punctuation.section.brackets.end.logging-categories
+          pop: 2
+        - match: '::'
+          scope: punctuation.accessor.double-colon.logging-categories
+        - match: '\w+'
+          scope: entity.name.constant.logging-categories
+        - include: else-pop
+        - include: eol-pop
+    - include: else-pop
+    - include: eol-pop

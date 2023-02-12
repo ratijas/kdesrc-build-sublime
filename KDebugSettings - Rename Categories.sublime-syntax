@@ -1,0 +1,64 @@
+%YAML 1.2
+---
+version: 2
+name: Logging Categories - Rename
+hidden: true
+file_extensions:
+  - renamecategories
+scope: source.logging-categories
+contexts:
+  main:
+    - match: '(?=^\S)'
+      push: line
+
+  comment:
+    - match: '#'
+      scope: punctuation.definition.comment.logging-categories
+      push:
+        - meta_scope: comment.line.logging-categories
+        - match: $
+          pop: 1
+
+  eol-pop:
+    - match: (?=\s*$)
+      pop: 1
+
+  else-pop:
+    - match: (?=\S)
+      pop: 1
+
+  line:
+    - include: comment
+    - match: (?=^\S)
+      push:
+        - eol-pop
+        - category-name-new
+        - category-name-old
+
+  category-name-old:
+    - match: '(?=\S)'
+      set:
+        - meta_scope: meta.namespace.logging-categories markup.deleted.logging-categories
+        - match: '\.'
+          scope: punctuation.accessor.dot.logging-categories
+        - match: '(?!\.)\S'
+          scope: ''
+        - match: '(?=\s)'
+          pop: 1
+        - include: else-pop
+    - include: else-pop
+    - include: eol-pop
+
+  category-name-new:
+    - match: '(?=\S)'
+      set:
+        - meta_scope: meta.namespace.logging-categories markup.inserted.logging-categories
+        - match: '\.'
+          scope: punctuation.accessor.dot.logging-categories
+        - match: '(?!\.)\S'
+          scope: ''
+        - match: '(?=\s)'
+          pop: 1
+        - include: else-pop
+    - include: else-pop
+    - include: eol-pop
