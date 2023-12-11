@@ -4,7 +4,7 @@ import json
 from typing import Any, Dict
 
 __all__ = (
-    'RegionTypeRestriction',
+    'ScopeRestriction',
     'Option',
     'OptionEncoder',
     'OptionDecoder',
@@ -14,7 +14,7 @@ __all__ = (
 DOC_BASE_URL = "https://docs.kde.org/trunk5/en/kdesrc-build/kdesrc-build/conf-options-table.html"
 
 
-class RegionTypeRestriction(IntFlag):
+class ScopeRestriction(IntFlag):
     ANY = 0
     GLOBAL = 1
     MODULE_SET = 2
@@ -24,7 +24,7 @@ class RegionTypeRestriction(IntFlag):
 class Option:
     name: str
     anchor: str
-    region: RegionTypeRestriction
+    scope: ScopeRestriction
     notes: str
 
 
@@ -34,7 +34,7 @@ class OptionEncoder(json.JSONEncoder):
             return {
                 "name": obj.name,
                 "anchor": obj.anchor,
-                "region": int(obj.region),
+                "scope": int(obj.scope),
                 "notes": obj.notes,
             }
 
@@ -44,11 +44,11 @@ class OptionEncoder(json.JSONEncoder):
 class OptionDecoder(json.JSONDecoder):
     def __init__(self) -> None:
         def object_hook(obj: Dict) -> Any:
-            if all(key in obj for key in ("name", "anchor", "region", "notes",)):
+            if all(key in obj for key in ("name", "anchor", "scope", "notes",)):
                 return Option(
                     name=obj["name"],
                     anchor=obj["anchor"],
-                    region=RegionTypeRestriction(obj["region"]),
+                    scope=ScopeRestriction(obj["scope"]),
                     notes=obj["notes"],
                 )
             return obj

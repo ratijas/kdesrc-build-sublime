@@ -73,21 +73,21 @@ POPUP_TEMPLATE = """
 </body>
 """
 
-class RegionType(Enum):
+class ScopeType(Enum):
     GLOBAL = "global"
     MODULE_SET = "module-set"
     MODULE = "module"
     OPTIONS = "options"
 
-    def may_contain(self, restricted: RegionTypeRestriction):
-        if restricted == RegionTypeRestriction.ANY:
+    def may_contain(self, restricted: ScopeRestriction):
+        if restricted == ScopeRestriction.ANY:
             return True
-        elif restricted == (RegionTypeRestriction.GLOBAL | RegionTypeRestriction.MODULE_SET):
-            return self in (RegionType.MODULE_SET, RegionType.OPTIONS)
-        elif restricted == RegionTypeRestriction.GLOBAL:
-            return self == RegionType.GLOBAL
-        elif restricted == RegionTypeRestriction.MODULE_SET:
-            return self == RegionType.MODULE_SET
+        elif restricted == (ScopeRestriction.GLOBAL | ScopeRestriction.MODULE_SET):
+            return self in (ScopeType.MODULE_SET, ScopeType.OPTIONS)
+        elif restricted == ScopeRestriction.GLOBAL:
+            return self == ScopeType.GLOBAL
+        elif restricted == ScopeRestriction.MODULE_SET:
+            return self == ScopeType.MODULE_SET
         else:
             return True
 
@@ -97,7 +97,7 @@ CompletionData = Union[int, str, CompletionItem]
 class OptionDescriptor:
     name: str
     type: OptionType
-    region: RegionTypeRestriction = RegionTypeRestriction.ANY
+    scope: ScopeRestriction = ScopeRestriction.ANY
     choices: Union[Sequence[CompletionData], Set[CompletionData]] = ()
     default: Any = None
     default_fn: Optional[Callable[[], Any]] = None
@@ -316,7 +316,7 @@ def ensure_registry():
         else:
             if not option.doc:
                 option.doc = doc.notes
-            option.region = doc.region
+            option.scope = doc.scope
             option.anchor = doc.anchor
 
         options[option.name] = option
@@ -334,7 +334,7 @@ def registry() -> Dict[str, OptionDescriptor]:
 
 OPTION_DESCRIPTOR_REGISTRY = {}
 
-FALLBACK_OPTION_DESCRIPTOR = OptionDescriptor(name="Unknown option", type=str, region=RegionTypeRestriction.ANY)
+FALLBACK_OPTION_DESCRIPTOR = OptionDescriptor(name="Unknown option", type=str, scope=ScopeRestriction.ANY)
 
 
 def get_option_descriptor(option: str) -> OptionDescriptor:
@@ -344,15 +344,15 @@ def get_option_descriptor(option: str) -> OptionDescriptor:
 def is_applicable(settings: sublime.Settings) -> bool:
     return settings.get("syntax") == KDESRC_BUILD_SYNTAX
 
-def get_region(view: View, pt: Point) -> Optional[RegionType]:
+def get_region(view: View, pt: Point) -> Optional[ScopeType]:
     if view.match_selector(pt, "meta.block.global.kdesrc-build"):
-        return RegionType.GLOBAL
+        return ScopeType.GLOBAL
     elif view.match_selector(pt, "meta.block.module-set.kdesrc-build"):
-        return RegionType.MODULE_SET
+        return ScopeType.MODULE_SET
     elif view.match_selector(pt, "meta.block.module.kdesrc-build"):
-        return RegionType.MODULE
+        return ScopeType.MODULE
     elif view.match_selector(pt, "meta.block.options.kdesrc-build"):
-        return RegionType.OPTIONS
+        return ScopeType.OPTIONS
     else:
         return None
 
@@ -551,12 +551,12 @@ class KdesrcBuildCompletionsProvider(sublime_plugin.ViewEventListener):
             CompletionItem("include", completion="include ", kind=sublime.KIND_KEYWORD, details="Include other configuration file")
         ], sublime.INHIBIT_WORD_COMPLETIONS)
 
-    def complete_option_name(self, region: RegionType, prefix: str, loc: Point) -> Union[None, CompletionList]:
+    def complete_option_name(self, region: ScopeType, prefix: str, loc: Point) -> Union[None, CompletionList]:
 
         options: List[OptionDescriptor] = []
 
         for option in registry().values():
-            if (option.name.startswith(prefix) or len(prefix) == 0) and region.may_contain(option.region):
+            if (option.name.startswith(prefix) or len(prefix) == 0) and region.may_contain(option.scope):
                 options.append(option)
 
         if len(options) != 0:

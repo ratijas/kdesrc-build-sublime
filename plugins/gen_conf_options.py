@@ -27,27 +27,71 @@ INDEX = "doc/index.docbook"
 FILENAME = "conf-options-table.html"
 
 
-def parse_region(name, text) -> RegionTypeRestriction:
+def parse_region(name, text) -> ScopeRestriction:
     # special case, documentation seem to be wrong about it
     if name == "ignore-modules":
-        return RegionTypeRestriction.GLOBAL | RegionTypeRestriction.MODULE_SET
+        return ScopeRestriction.GLOBAL | ScopeRestriction.MODULE_SET
 
     if "Cannot be overridden" in text:
-        return RegionTypeRestriction.GLOBAL
+        return ScopeRestriction.GLOBAL
 
     if "Can only use in" in text:
-        return RegionTypeRestriction.MODULE_SET
+        return ScopeRestriction.MODULE_SET
 
     if "Module setting overrides global" in text:
-        return RegionTypeRestriction.ANY
+        return ScopeRestriction.ANY
 
-    return RegionTypeRestriction.ANY
+    return ScopeRestriction.ANY
 
 
-def parse_option(tr: Tag) -> Optional[Option]:
-    name, behavior, notes = tuple(tr.children)
+def convert_table(soup: BeautifulSoup, table: Tag):
+    replacement = soup.new_tag("div")
 
-    assert isinstance(name, Tag) and isinstance(behavior, Tag) and isinstance(notes, Tag)
+    for tr in table.find_all("tr"):
+        assert isinstance(tr, Tag) and tr.name == "tr"
+        key, value = tr.children
+        assert isinstance(key, Tag) and key.name == "td"
+        assert isinstance(value, Tag) and value.name == "td"
+
+        key_text = key.text
+        if not key_text.endswith(":"):
+            key_text += ":"
+
+        key_tag = soup.new_tag("b")
+        key_tag.append(key_text)
+
+        value_text = value.text
+        value_tag = soup.new_tag("span")
+        value_tag.append(value_text)
+
+        line_tag = soup.new_tag("p")
+        line_tag.append(key_tag)
+        line_tag.append(" ")
+        line_tag.append(value_tag)
+
+        replacement.append(line_tag)
+
+    table.replace_with(replacement)
+
+
+def parse_option(soup: BeautifulSoup, scope: ScopeRestriction, tr: Tag) -> Optional[Option]:
+    """
+    A row with option has the following format:
+
+        Option name | Description
+
+    Where description cell embeds another table with structured meta-data:
+
+        Type            Boolean
+        Default value   True
+        Available since 1.6
+
+    The rest of the description cell's content is HTML text.
+    """
+    name, description = tuple(tr.children)
+
+    assert isinstance(name, Tag)
+    assert isinstance(description, Tag)
 
     anchor = name.find('a')
     if anchor is None:
@@ -55,7 +99,7 @@ def parse_option(tr: Tag) -> Optional[Option]:
         return None
     assert isinstance(anchor, Tag)
 
-    for a in notes.find_all("a"):
+    for a in description.find_all("a"):
         assert isinstance(a, Tag)
         href = a.attrs.get("href", None)
         if href is None:
@@ -66,25 +110,34 @@ def parse_option(tr: Tag) -> Optional[Option]:
 
         a.attrs["href"] = urljoin(DOC_BASE_URL, href)
 
-    region = parse_region(name.text, behavior.text)
-    notes = ''.join(map(str, notes.contents)).strip()
+    for table in description.find_all("table", class_="simplelist"):
+        assert isinstance(table, Tag)
+        convert_table(soup, table)
 
-    return Option(name=name.text, anchor=anchor.attrs["name"], region=region, notes=notes)
+    notes = ''.join(map(str, description.contents)).strip()
+
+    return Option(name=name.text, anchor=anchor.attrs["name"], scope=scope, notes=notes)
 
 
 def parse_options(soup: BeautifulSoup) -> Iterable[Option]:
-    table = soup.find("table", class_="table")
-    assert isinstance(table, Tag)
+    """
+    There are three tables in documentation now:
+    1. Global scope only options
+    2. All scopes (module, module-set and global) options
+    3. Module-set scope only options
+    """
+    scopes = [ScopeRestriction.GLOBAL, ScopeRestriction.ANY, ScopeRestriction.MODULE_SET]
+    tables = soup.find_all("table", class_="table")
 
-    tbody = table.find('tbody')
-    assert isinstance(tbody, Tag)
+    for scope, table in zip(scopes, tables):
+        tbody = table.find('tbody')
+        assert isinstance(tbody, Tag)
 
-    for tr in tbody.children:
-        assert isinstance(tr, Tag)
-        option = parse_option(tr)
-        if option is not None:
-            yield option
-
+        for tr in tbody.children:
+            assert isinstance(tr, Tag)
+            option = parse_option(soup, scope, tr)
+            if option is not None:
+                yield option
 
 
 def main(basedir: str = BASE_DIR, *argv):
