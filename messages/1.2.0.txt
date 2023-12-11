@@ -1,0 +1,4 @@
+kdesrc-build for Sublime Text 1.2.0 has been released!
+
+- New file extension *.ksb has been added to the list.
+  Old configs should be ported to the new path.
